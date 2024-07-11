@@ -47,12 +47,11 @@ CREATE TABLE prescription (
 
 CREATE TABLE appointments (
    appointmentID INT AUTO_INCREMENT PRIMARY KEY,
-   patientID INT(11) NOT NULL,
-   patientRecordID INT NOT NULL,  
-   date_preference DATE NOT NULL,
-   time_preference TIME NOT NULL,
-   appointment_type VARCHAR(50) NOT NULL,
-   reason TEXT NOT NULL,
+   patientID INT(11) NOT NULL, -- fk
+   date_preference DATE NOT NULL, -- filled by patient
+   time_preference TIME NOT NULL, -- filled by patient
+   appointment_type VARCHAR(50) NOT NULL,-- filled by patient
+   reason TEXT NOT NULL,-- filled by patient
    chief_complaint TEXT,
    duration_severity TEXT,
    general_appearance TEXT,
@@ -60,8 +59,7 @@ CREATE TABLE appointments (
    approved BOOLEAN DEFAULT false,
    archived BOOLEAN DEFAULT false,
    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-   FOREIGN KEY (patientID) REFERENCES patient(patientID),
-   FOREIGN KEY (patientRecordID) REFERENCES patientRecord(patientRecordID)
+   FOREIGN KEY (patientID) REFERENCES patient(patientID)
 );
 
 CREATE TABLE staff (

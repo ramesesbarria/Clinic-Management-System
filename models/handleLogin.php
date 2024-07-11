@@ -1,6 +1,10 @@
 <?php
 include 'db.php';
 
+// Define secretary credentials
+$secretaryEmail = "secretary@gmail.com";
+$secretaryPassword = "secretaryPassword";
+
 // Initialize variables for storing user input and errors
 $email = $password = "";
 $errors = array();
@@ -19,8 +23,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = "Password is required";
     }
 
-    // If no errors, attempt to fetch user from database
+    // If no errors, attempt to fetch user from database or check if secretary credentials
     if (empty($errors)) {
+        // Check if the user is the secretary
+        if ($email == $secretaryEmail && $password == $secretaryPassword) {
+            // Authentication successful, redirect to secretary.php
+            session_start();
+            $_SESSION["email"] = $email; // Store email in session for future use if needed
+            header("Location: ../pages/secretary.php");
+            exit();
+        }
+
+        // Otherwise, proceed with patient login
         $sql = "SELECT * FROM patient WHERE email='$email'";
         $result = $conn->query($sql);
 
