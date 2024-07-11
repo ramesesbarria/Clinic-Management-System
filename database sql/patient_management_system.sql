@@ -18,6 +18,7 @@ CREATE TABLE patient (
 CREATE TABLE patientRecord (
    patientRecordID INT AUTO_INCREMENT PRIMARY KEY,
    patientID INT NOT NULL,
+   appointmentID INT NOT NULL,
    version INT NOT NULL DEFAULT 1,
    medical_history TEXT,
    height DECIMAL(5, 2),
@@ -32,7 +33,8 @@ CREATE TABLE patientRecord (
    major_past_illnesses TEXT,
    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-   FOREIGN KEY (patientID) REFERENCES patient(patientID)
+   FOREIGN KEY (patientID) REFERENCES patient(patientID),
+   FOREIGN KEY (appointmentID) REFERENCES appointments(appointmentID)
 );
 
 CREATE TABLE prescription (
