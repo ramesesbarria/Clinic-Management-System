@@ -9,7 +9,7 @@ Welcome to the repository for our Patient Management System, developed as part o
 
 ## Features
 
--- ** UNFINISHED
+- ** UNFINISHED
 
 ## Technology Stack
 - **Frontend**: HTML, Tailwind CSS, JavaScript
