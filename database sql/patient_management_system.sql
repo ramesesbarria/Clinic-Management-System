@@ -19,7 +19,6 @@ CREATE TABLE patientRecord (
    patientRecordID INT AUTO_INCREMENT PRIMARY KEY,
    patientID INT NOT NULL,
    appointmentID INT NOT NULL,
-   version INT NOT NULL DEFAULT 1,
    medical_history TEXT,
    height DECIMAL(5, 2),
    weight DECIMAL(5, 2),
