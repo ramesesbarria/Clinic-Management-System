@@ -100,7 +100,7 @@
         <h3><?php echo "{$greeting}, {$firstName}"; ?></h3>
         <p>Welcome to Our Clinic. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         <p>Last Login: <?php echo $lastLogin; ?></p>
-        <a href="book-appointment.php" class="btn btn-primary">Book an Appointment</a>
+        <a href="appointmentForm.html" class="btn btn-primary">Book an Appointment</a>
     </div>
 </header>
 
