@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($conn->query($sql_insert_user) === TRUE) {
                 // Registration successful, redirect to login page
-                header("Location: ../pages/login.html");
+                header("Location: ../pages/loginForm.php");
                 exit();
             } else {
                 $errors[] = "Error: " . $sql_insert_user . "<br>" . $conn->error;
