@@ -1,5 +1,5 @@
 <?php
-include '../Models/check_session.php'; // Ensure session is checked
+include '../Models/checkSession.php'; // Ensure session is checked
 
 // Initialize variables with session data or default values
 $firstName = $_SESSION['user_first_name'] ?? '';
@@ -86,7 +86,7 @@ $email = $_SESSION['user_email'] ?? '';
                         <li><a class="dropdown-item" href="edit_profile.php">Edit Profile</a></li>
                         <li><a class="dropdown-item" href="appointment_history.php">Appointment History</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="../Models/logout.php">Logout</a></li>
+                        <li><a class="dropdown-item" href="../Models/handleLogout.php">Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -102,7 +102,7 @@ $email = $_SESSION['user_email'] ?? '';
                         </a>
                         <h3 class="card-title text-left mb-4 mt-3">Edit Your Profile</h3>
                         <!-- Form for editing profile -->
-                        <form action="../Models/update_profile.php" method="POST">
+                        <form action="../Models/updateProfile.php" method="POST">
                             <!-- Input fields for editing profile -->
                             <div class="mb-3">
                                 <label for="firstName" class="form-label">First Name</label>

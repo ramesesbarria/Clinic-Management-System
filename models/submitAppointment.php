@@ -12,41 +12,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $appointment_type = htmlspecialchars($_POST['appointment_type']);
     $reason = htmlspecialchars($_POST['reason']);
 
-    // Insert into appointments table
-    $stmt = $conn->prepare("INSERT INTO appointments (patientID, date_preference, time_preference, appointment_type, reason) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("issss", $patientID, $date_preference, $time_preference, $appointment_type, $reason);
+    // Get patientID from session (ensure session variable is set)
+    if (isset($_SESSION['patientID'])) {
+        $patientID = $_SESSION['patientID'];
 
-    // Get patientID from session (replace with your actual session handling)
-    $patientID = $_SESSION['patientID']; // Example: You need to set this based on your session handling
+        // Insert into appointments table
+        $stmt = $conn->prepare("INSERT INTO appointments (patientID, date_preference, time_preference, appointment_type, reason) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("issss", $patientID, $date_preference, $time_preference, $appointment_type, $reason);
 
-    if ($stmt->execute()) {
-        // Insertion into appointments table successful
-        $appointmentID = $stmt->insert_id; // Get the auto-generated appointmentID
+        if ($stmt->execute()) {
+            // Insertion into appointments table successful
+            $appointmentID = $stmt->insert_id; // Get the auto-generated appointmentID
 
-        // Close the statement
-        $stmt->close();
+            // Close the statement
+            $stmt->close();
 
-        // Insert a placeholder patientRecord tied to this appointmentID
-        $stmtPatientRecord = $conn->prepare("INSERT INTO patientRecord (patientID, appointmentID) VALUES (?, ?)");
-        $stmtPatientRecord->bind_param("ii", $patientID, $appointmentID);
+            // Insert a placeholder patientRecord tied to this appointmentID
+            $stmtPatientRecord = $conn->prepare("INSERT INTO patientRecord (patientID, appointmentID) VALUES (?, ?)");
+            $stmtPatientRecord->bind_param("ii", $patientID, $appointmentID);
 
-        if ($stmtPatientRecord->execute()) {
-            // PatientRecord insertion successful
-            echo "Appointment booked successfully.";
+            if ($stmtPatientRecord->execute()) {
+                // PatientRecord insertion successful
+                echo "Appointment booked successfully.";
+            } else {
+                // Handle patientRecord insertion failure
+                echo "Error inserting patientRecord: " . $stmtPatientRecord->error;
+            }
+
+            // Close the patientRecord statement
+            $stmtPatientRecord->close();
         } else {
-            // Handle patientRecord insertion failure
-            echo "Error inserting patientRecord: " . $stmtPatientRecord->error;
+            // Handle insertion failure for appointments table
+            echo "Error inserting appointment: " . $stmt->error;
         }
 
-        // Close the patientRecord statement
-        $stmtPatientRecord->close();
+        // Close the database connection
+        $conn->close();
     } else {
-        // Handle insertion failure for appointments table
-        echo "Error inserting appointment: " . $stmt->error;
+        // Handle case where patientID is not set in session
+        echo "Error: patientID not found in session. Please log in again.";
     }
-
-    // Close the database connection
-    $conn->close();
 } else {
     // Redirect or handle if form submission method is not POST
     echo "Form submission method not allowed.";

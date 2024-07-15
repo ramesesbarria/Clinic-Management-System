@@ -1,5 +1,5 @@
 <?php
-include 'check_session.php';
+include 'checkSession.php';
 include 'db.php'; // Include your database connection script
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

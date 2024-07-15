@@ -78,7 +78,7 @@
                 unset($_SESSION['login_error']);
             }
             ?>
-            <form action="../Models/login.php" method="post">
+            <form action="../Models/handleLogin.php" method="post">
                 <div class="mb-3">
                     <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
                 </div>

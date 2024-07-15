@@ -53,8 +53,8 @@ if ($result === false) {
                         <td class="px-6 py-4 whitespace-nowrap">
                             <a href="view.php?id=<?php echo $row['appointmentID']; ?>" class="text-blue-600 hover:underline">View</a>
                             <a href="edit.php?id=<?php echo $row['appointmentID']; ?>" class="text-green-600 hover:underline ml-4">Edit</a>
-                            <a href="../models/approve.php?id=<?php echo $row['appointmentID']; ?>" class="text-green-600 hover:underline ml-4">Approve</a>
-                            <a href="../models/reject.php?id=<?php echo $row['appointmentID']; ?>" class="text-red-600 hover:underline ml-4">Reject</a>
+                            <a href="../models/approveAppointment.php?id=<?php echo $row['appointmentID']; ?>" class="text-green-600 hover:underline ml-4">Approve</a>
+                            <a href="../models/rejectAppointment.php?id=<?php echo $row['appointmentID']; ?>" class="text-red-600 hover:underline ml-4">Reject</a>
                         </td>
                     </tr>
                 <?php } ?>
@@ -65,7 +65,6 @@ if ($result === false) {
 
 </body>
 </html>
-
 <?php
 // Close the database connection
 $conn->close();

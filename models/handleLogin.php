@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user_patient = $result_patient->fetch_assoc();
         if (password_verify($password, $user_patient['password'])) {
             // Successful login for patient
-            $_SESSION['user_id'] = $user_patient['patientID'];
+            $_SESSION['patientID'] = $user_patient['patientID'];
             $_SESSION['user_first_name'] = $user_patient['first_name'];
             $_SESSION['user_last_name'] = $user_patient['last_name'];
             $_SESSION['user_dob'] = $user_patient['dob'];
@@ -62,10 +62,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Determine the dashboard based on staff type
                 switch ($user_staff['staffType']) {
                     case 'secretary':
-                        header("Location: ../Pages/secretary.php");
+                        header("Location: ../Pages/secretaryDashboard.php");
                         exit();
                     case 'doctor':
-                        header("Location: ../Pages/doctor_dashboard.php");
+                        header("Location: ../Pages/doctorDashboard.php");
                         exit();
                     default:
                         // Handle other staff types if necessary

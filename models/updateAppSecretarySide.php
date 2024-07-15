@@ -41,8 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmtPatientRecord->bind_param("sddsisdssssi", $medical_history, $height, $weight, $blood_pressure, $pulse_rate, $temperature, $respiratory_rate, $current_medications, $past_medications, $allergies, $major_past_illnesses, $patientRecordID);
 
             if ($stmtPatientRecord->execute()) {
-                // Redirect to secretary.php after successful update
-                header("Location: ../pages/secretary.php");
+                // Redirect to secretaryDashboard.php after successful update
+                header("Location: ../pages/secretaryDashboard.php");
                 exit();
             } else {
                 echo "Error updating patientRecord: " . $stmtPatientRecord->error;

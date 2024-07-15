@@ -1,4 +1,4 @@
-<?php include '../Models/check_session.php'; ?>
+<?php include '../Models/checkSession.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -67,7 +67,7 @@
                     <li><a class="dropdown-item" href="edit_profile.php">Edit Profile</a></li>
                     <li><a class="dropdown-item" href="appointment_history.php">Appointment History</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="../Models/logout.php">Logout</a></li>
+                    <li><a class="dropdown-item" href="../Models/handleLogout.php">Logout</a></li>
                 </ul>
             </li>
         </ul>
@@ -99,10 +99,10 @@
 </header>
 
 <!-- Recent Appointments Section -->
-<?php include '../Models/recent_appointments.php'; ?>
+<?php include '../Models/recentAppointments.php'; ?>
 
 <!-- Upcoming Appointments Section -->
-<?php include '../Models/upcoming_appointments.php'; ?>
+<?php include '../Models/upcomingAppointments.php'; ?>
 
 <a href="#" id="btnScrollToTop" class="btn-scroll-top">
     <i class="fas fa-arrow-up"></i>

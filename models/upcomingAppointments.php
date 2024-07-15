@@ -128,7 +128,7 @@
                                         </div>
                                         <div class="modal-body">
                                             <!-- Include the form for editing appointment -->
-                                            <form id="editAppointmentForm_<?php echo $appointment['appointmentID']; ?>" action="../models/update_appointment.php" method="POST">
+                                            <form id="editAppointmentForm_<?php echo $appointment['appointmentID']; ?>" action="../models/updateAppPatientSide.php" method="POST">
                                                 <input type="hidden" name="appointmentID" value="<?php echo $appointment['appointmentID']; ?>">
                                                 <div class="mb-3">
                                                     <label for="editDate_<?php echo $appointment['appointmentID']; ?>" class="form-label">Date</label>

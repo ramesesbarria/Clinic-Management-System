@@ -122,7 +122,7 @@ if (isset($_POST['logout'])) {
                             echo "<td>$time</td>";
                             echo "<td>$patientName</td>";
                             echo "<td>$reason</td>";
-                            echo '<td><a href="doctor_appointment.php?id=' . $row['appointmentID'] . '" class="btn btn-primary">Open Appointment</a></td>';
+                            echo '<td><a href="doctorAppointment.php?id=' . $row['appointmentID'] . '" class="btn btn-primary">Open Appointment</a></td>';
                             echo "</tr>";
                         }
                         ?>

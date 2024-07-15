@@ -40,14 +40,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $general_appearance = $_POST['general_appearance'];
     $visible_signs = $_POST['visible_signs'];
 
-    $updateAppointment = "UPDATE appointments SET 
+    $updateAppSecretarySide = "UPDATE appointments SET
                           chief_complaint = '$chief_complaint',
                           duration_severity = '$duration_severity',
                           general_appearance = '$general_appearance',
                           visible_signs = '$visible_signs'
                           WHERE appointmentID = $appointmentID";
 
-    mysqli_query($conn, $updateAppointment);
+    mysqli_query($conn, $updateAppSecretarySide);
 
     // Update patient record
     $medical_history = $_POST['medical_history'];
@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     
 
     // Redirect to doctor dashboard
-    header("Location: doctor_dashboard.php");
+    header("Location: doctorDashboard.php");
     exit();
 }
 
@@ -125,7 +125,7 @@ if (isset($_POST['logout'])) {
         </form>
     </nav>
     <div class="container mt-3">
-        <a href="doctor_dashboard.php" class="btn btn-secondary">Back to Dashboard</a>
+        <a href="doctorDashboard.php" class="btn btn-secondary">Back to Dashboard</a>
     </div>
     <div class="container mt-3">
         <h2>Update Appointment</h2>

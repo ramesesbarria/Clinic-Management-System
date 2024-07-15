@@ -125,7 +125,7 @@ $appointment = $result->fetch_assoc();
         </div>
     </div>
 
-    <a href="secretary.php" class="mt-6 inline-block text-blue-600 hover:underline">Back to Dashboard</a>
+    <a href="secretaryDashboard.php" class="mt-6 inline-block text-blue-600 hover:underline">Back to Dashboard</a>
 </div>
 
 </body>

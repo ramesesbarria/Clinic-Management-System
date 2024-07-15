@@ -11,7 +11,7 @@ if ($appointmentID > 0) {
         // Then delete the appointment
         $sqlDeleteAppointment = "DELETE FROM appointments WHERE appointmentID = $appointmentID";
         if ($conn->query($sqlDeleteAppointment) === TRUE) {
-            header("Location: ../pages/secretary.php");
+            header("Location: ../pages/secretaryDashboard.php");
         } else {
             echo "Error deleting appointment: " . $conn->error;
         }

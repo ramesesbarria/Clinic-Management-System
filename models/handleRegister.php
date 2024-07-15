@@ -58,6 +58,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 VALUES ('$first_name', '$last_name', '$dob', '$address', '$phone_number', '$email', '$hashed_password')";
 
             if ($conn->query($sql_insert_user) === TRUE) {
+                // Get the patientID of the newly registered user
+                $patientID = $conn->insert_id;
+
+                // Start the session and set the patientID
+                session_start();
+                $_SESSION['patientID'] = $patientID;
+
                 // Registration successful, redirect to login page
                 header("Location: ../pages/loginForm.php");
                 exit();

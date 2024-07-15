@@ -1,6 +1,6 @@
 <?php
 include '../Models/db.php'; // Include configuration
-include '../Models/check_session.php';
+include '../Models/checkSession.php';
 ?>
 
 <!DOCTYPE html>
@@ -74,7 +74,7 @@ include '../Models/check_session.php';
                         <li><a class="dropdown-item" href="edit_profile.php">Edit Profile</a></li>
                         <li><a class="dropdown-item" href="appointment_history.php">Appointment History</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="../Models/logout.php">Logout</a></li>
+                        <li><a class="dropdown-item" href="../Models/handleLogout.php">Logout</a></li>
                     </ul>
                 </li>
             </ul>

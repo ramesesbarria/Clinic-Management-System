@@ -53,7 +53,7 @@ if (isset($_GET['id'])) {
 
 <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
     <h2 class="text-2xl font-bold mb-6">Edit Appointment</h2>
-    <form action="../models/updateAppointment.php" method="POST" class="space-y-4">
+    <form action="../models/updateAppSecretarySide.php" method="POST" class="space-y-4">
         <input type="hidden" name="appointmentID" value="<?php echo $appointment['appointmentID']; ?>">
         <input type="hidden" name="patientRecordID" value="<?php echo $appointment['patientRecordID']; ?>">
 
@@ -149,7 +149,7 @@ if (isset($_GET['id'])) {
         <!-- Submit Button -->
         <div class="mt-6">
             <button type="submit" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Save Changes</button>
-            <a href="secretary.php" class="inline-block bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded ml-2">Cancel</a>
+            <a href="secretaryDashboard.php" class="inline-block bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded ml-2">Cancel</a>
         </div>
     </form>
 </div>

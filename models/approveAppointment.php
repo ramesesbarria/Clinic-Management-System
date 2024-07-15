@@ -13,6 +13,6 @@ if ($conn->query($sql) === true) {
 }
 
 // Redirect back to the dashboard
-header("Location: ../pages/secretary.php");
+header("Location: ../pages/secretaryDashboard.php");
 exit();
 ?>
