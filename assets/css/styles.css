@@ -1,0 +1,38 @@
+.content-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+.btn-scroll-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: none; /* Initially hidden */
+    background-color: #12229D;
+    color: #fff;
+    width: 40px;
+    height: 40px;
+    border: 2px solid gray;
+    border-radius: 50%;
+    font-size: 24px;
+    text-align: center;
+    line-height: 40px;
+    cursor: pointer;
+    transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+    z-index: 1000;
+}
+.btn-scroll-top:hover {
+    background-color: #0a156d;
+}
+.footer { 
+    background-color: #12229D;
+    padding: 20px; 
+    text-align: center; 
+    color: white;
+    bottom: 0;
+}
+.footer p {
+    margin-bottom: 5px;
+}

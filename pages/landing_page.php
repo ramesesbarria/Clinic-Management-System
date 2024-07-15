@@ -9,6 +9,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/styles.css">
     <style>
         * {
             font-family: 'Merriweather', serif;
@@ -36,13 +37,6 @@
             background-position: center;
             color: white; /* Ensure text is visible over background */
         }
-        .content-container {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
         .btn-primary {
             color: #fff;
             background-color: #12229D;
@@ -66,12 +60,12 @@
 
         <ul class="navbar-nav ms-auto">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-user-circle fa-lg"></i> <!-- Font Awesome profile icon -->
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #12229D">
+                    <i class="fas fa-user-circle fa-lg" style="color: #12229D"></i> <!-- Font Awesome profile icon -->
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" href="edit_profile.php">Edit Profile</a></li>
-                    <li><a class="dropdown-item" href="#">Appointment History</a></li>
+                    <li><a class="dropdown-item" href="appointment_history.php">Appointment History</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="../Models/logout.php">Logout</a></li>
                 </ul>
@@ -110,10 +104,15 @@
 <!-- Upcoming Appointments Section -->
 <?php include '../Models/upcoming_appointments.php'; ?>
 
+<a href="#" id="btnScrollToTop" class="btn-scroll-top">
+    <i class="fas fa-arrow-up"></i>
+</a>
+
 <!-- Footer Section -->
-<?php include 'footer.php'; ?>
+<?php include '../components/footer.php'; ?>
 
 <!-- Bootstrap JavaScript Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/scroll-to-top.js"></script>
 </body>
 </html>

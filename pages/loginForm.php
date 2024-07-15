@@ -39,12 +39,15 @@
             margin-bottom: 15px;
         }
         .btn-primary {
+            color: #fff;
             background-color: #12229D;
-            border-color: #12229D;
+            border: 2px solid #12229D;
+            font-size: 0.8rem;
+            transition: background-color 0.3s, border-color 0.3s;
         }
         .btn-primary:hover {
-            background-color: #2f40c2;
-            border-color: #2f40c2;
+            background-color: #12229D;
+            border-color: #12229D;
         }
         .btn-block {
             width: 100%;
@@ -53,12 +56,21 @@
         .text-center {
             text-align: center;
         }
+        .back-btn {
+            color: #6e6e6e; /* Set the color of the icon */
+        }
+        .back-btn:hover {
+            color: #929292; /* Hover color */
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <a href="index.php" class="back-btn">
+            <i class="fas fa-arrow-left fa-lg"></i>
+        </a>
         <div id="Login">
-            <h4 class="mb-3">Login</h4>
+            <h4 class="mb-3 mt-3">Login</h4>
             <?php
             session_start();
             if (isset($_SESSION['login_error'])) {
