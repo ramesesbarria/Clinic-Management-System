@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
 
     mysqli_query($conn, $updatePatientRecord);
 
-    $archiveAppointment = "UPDATE appointments SET archived = 1, approved = 0 WHERE appointmentID = $appointmentID";
+    $archiveAppointment = "UPDATE appointments SET completed = 1, approved = 0 WHERE appointmentID = $appointmentID";
     mysqli_query($conn, $archiveAppointment);
 
     

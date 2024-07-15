@@ -58,6 +58,7 @@ CREATE TABLE appointments (
    general_appearance TEXT,
    visible_signs TEXT,
    approved BOOLEAN DEFAULT false,
+   completed BOOLEAN DEFAULT false,
    archived BOOLEAN DEFAULT false,
    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
    FOREIGN KEY (patientID) REFERENCES patient(patientID)
