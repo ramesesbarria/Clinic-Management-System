@@ -55,6 +55,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['staff_first_name'] = $user_staff['fname'];
                 $_SESSION['last_login'] = time();
 
+                // to fit GrayHamZ's variables (Wont affect anything else)
+                $_SESSION['userID'] = $user_staff['staffID'];
+                $_SESSION['userType'] = $user_staff['staffType'];
+
                 // Determine the dashboard based on staff type
                 switch ($user_staff['staffType']) {
                     case 'secretary':
