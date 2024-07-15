@@ -71,6 +71,12 @@ if (isset($_POST['logout'])) {
         .navbar {
             justify-content: space-between;
         }
+        body {
+            background-image: url('../img/background.png'); /* Replace with your actual path */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
     </style>
 </head>
 <body>
@@ -78,7 +84,6 @@ if (isset($_POST['logout'])) {
         <a class="navbar-brand">Doctor Dashboard</a>
         <p class="mr-3 mt-2">Welcome, <?php echo $doctorFirstName; ?></p>
         <form method="post" class="form-inline">
-            <a href="patientlist.php" class="nav-item nav-link">Patients</a>
             <button type="submit" class="btn btn-outline-danger my-2 my-sm-0" name="logout">Logout</button>
         </form>
     </nav>
