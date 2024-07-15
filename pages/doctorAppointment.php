@@ -1,11 +1,13 @@
 <?php
 session_start();
 require '../models/db.php';
+
 // Check if user is logged in as a doctor
 if (!isset($_SESSION['userID']) || $_SESSION['userType'] !== 'doctor') {
     header("Location: login.html");
     exit();
 }
+
 // Fetch doctor's first name
 $doctorId = $_SESSION['userID'];
 $queryDoctor = "SELECT fname FROM staff WHERE staffID = $doctorId";
@@ -62,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $allergies = $_POST['allergies'];
     $major_past_illnesses = $_POST['major_past_illnesses'];
 
-    $updatePatientRecord = "UPDATE patientRecord SET 
+    $updatePatientRecord = "UPDATE patientRecord SET
                             medical_history = '$medical_history',
                             height = $height,
                             weight = $weight,
@@ -78,10 +80,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
 
     mysqli_query($conn, $updatePatientRecord);
 
+    // Archive the appointment
     $archiveAppointment = "UPDATE appointments SET completed = 1, approved = 0 WHERE appointmentID = $appointmentID";
     mysqli_query($conn, $archiveAppointment);
-
-    
 
     // Redirect to doctor dashboard
     header("Location: doctorDashboard.php");

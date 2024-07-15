@@ -10,11 +10,11 @@ $sqlPending = "SELECT a.appointmentID, a.patientID, a.date_preference, a.time_pr
 
 $resultPending = $conn->query($sqlPending);
 
-// Fetch completed appointments (completed)
+// Fetch completed appointments (completed and not paid)
 $sqlCompleted = "SELECT a.appointmentID, a.patientID, a.date_preference, a.time_preference, a.appointment_type, a.reason, a.chief_complaint, a.duration_severity, a.general_appearance, a.visible_signs, a.approved, p.first_name, p.last_name
                  FROM appointments a
                  INNER JOIN patient p ON a.patientID = p.patientID
-                 WHERE a.completed = true
+                 WHERE a.completed = true AND a.archived = false
                  ORDER BY a.date_preference, a.time_preference ASC";
 
 $resultCompleted = $conn->query($sqlCompleted);
@@ -99,6 +99,7 @@ if ($resultPending === false || $resultCompleted === false) {
                         <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
                         <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
                         <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Appointment Type</th>
+                        <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
@@ -108,6 +109,16 @@ if ($resultPending === false || $resultCompleted === false) {
                             <td class="px-6 py-4 whitespace-nowrap"><?php echo $row['date_preference']; ?></td>
                             <td class="px-6 py-4 whitespace-nowrap"><?php echo $row['time_preference']; ?></td>
                             <td class="px-6 py-4 whitespace-nowrap"><?php echo $row['appointment_type']; ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <form action="../models/submitPayment.php" method="POST">
+                                    <input type="hidden" name="appointmentID" value="<?php echo $row['appointmentID']; ?>">
+                                    <input type="hidden" name="patientID" value="<?php echo $row['patientID']; ?>">
+                                    <input type="number" name="paymentAmount" placeholder="Enter Amount" required>
+                                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                        Pay
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
                     <?php } ?>
                 </tbody>

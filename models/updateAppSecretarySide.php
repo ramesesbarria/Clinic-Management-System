@@ -19,23 +19,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $duration_severity = $_POST['duration_severity'];
         $general_appearance = $_POST['general_appearance'];
         $visible_signs = $_POST['visible_signs'];
-        $medical_history = $_POST['medical_history'];
-        $height = $_POST['height'];
-        $weight = $_POST['weight'];
-        $blood_pressure = $_POST['blood_pressure'];
-        $pulse_rate = $_POST['pulse_rate'];
-        $temperature = $_POST['temperature'];
-        $respiratory_rate = $_POST['respiratory_rate'];
-        $current_medications = $_POST['current_medications'];
-        $past_medications = $_POST['past_medications'];
-        $allergies = $_POST['allergies'];
-        $major_past_illnesses = $_POST['major_past_illnesses'];
+
+        // Convert appointment_type to match ENUM values
+        switch (strtolower($appointment_type)) {
+            case 'regular_checkup':
+                $appointment_type = 'Regular Checkup';
+                break;
+            case 'specific_treatment':
+                $appointment_type = 'Specific Treatment';
+                break;
+            case 'consultation':
+                $appointment_type = 'Consultation';
+                break;
+            default:
+                echo "Error: Invalid appointment type.";
+                exit; // Exit script if invalid appointment type
+        }
 
         // Update appointment table
         $stmtAppointment = $conn->prepare("UPDATE appointments SET date_preference=?, time_preference=?, appointment_type=?, reason=?, chief_complaint=?, duration_severity=?, general_appearance=?, visible_signs=? WHERE appointmentID=?");
         $stmtAppointment->bind_param("ssssssssi", $date_preference, $time_preference, $appointment_type, $reason, $chief_complaint, $duration_severity, $general_appearance, $visible_signs, $appointmentID);
 
         if ($stmtAppointment->execute()) {
+            // Retrieve additional data for the patientRecord table
+            $medical_history = $_POST['medical_history'];
+            $height = $_POST['height'];
+            $weight = $_POST['weight'];
+            $blood_pressure = $_POST['blood_pressure'];
+            $pulse_rate = $_POST['pulse_rate'];
+            $temperature = $_POST['temperature'];
+            $respiratory_rate = $_POST['respiratory_rate'];
+            $current_medications = $_POST['current_medications'];
+            $past_medications = $_POST['past_medications'];
+            $allergies = $_POST['allergies'];
+            $major_past_illnesses = $_POST['major_past_illnesses'];
+
             // Update patientRecord table
             $stmtPatientRecord = $conn->prepare("UPDATE patientRecord SET medical_history=?, height=?, weight=?, blood_pressure=?, pulse_rate=?, temperature=?, respiratory_rate=?, current_medications=?, past_medications=?, allergies=?, major_past_illnesses=? WHERE patientRecordID=?");
             $stmtPatientRecord->bind_param("sddsisdssssi", $medical_history, $height, $weight, $blood_pressure, $pulse_rate, $temperature, $respiratory_rate, $current_medications, $past_medications, $allergies, $major_past_illnesses, $patientRecordID);

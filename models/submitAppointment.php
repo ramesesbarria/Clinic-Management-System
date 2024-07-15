@@ -9,8 +9,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate and sanitize form inputs (adjust validation as per your requirements)
     $date_preference = htmlspecialchars($_POST['date_preference']);
     $time_preference = htmlspecialchars($_POST['time_preference']);
-    $appointment_type = htmlspecialchars($_POST['appointment_type']);
     $reason = htmlspecialchars($_POST['reason']);
+    $appointment_type = htmlspecialchars($_POST['appointment_type']);
+
+    // Adjust appointment_type to match case-sensitive enum values
+    switch (strtolower($appointment_type)) {
+        case 'regular_checkup':
+            $appointment_type = 'Regular Checkup';
+            break;
+        case 'specific_treatment':
+            $appointment_type = 'Specific Treatment';
+            break;
+        case 'consultation':
+            $appointment_type = 'Consultation';
+            break;
+        default:
+            echo "Error: Invalid appointment type.";
+            exit; // Exit script if invalid appointment type
+    }
 
     // Get patientID from session (ensure session variable is set)
     if (isset($_SESSION['patientID'])) {

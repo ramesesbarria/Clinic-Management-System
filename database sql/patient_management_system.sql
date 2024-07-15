@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS patient_management_system;
+CREATE DATABASE IF NOT EXISTS clinicManagementSystem;
 
-USE patient_management_system;
+USE clinicManagementSystem;
 
 CREATE TABLE patient (
    patientID INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -51,7 +51,7 @@ CREATE TABLE appointments (
    patientID INT(11) NOT NULL, -- fk
    date_preference DATE NOT NULL, -- filled by patient
    time_preference TIME NOT NULL, -- filled by patient
-   appointment_type VARCHAR(50) NOT NULL,-- filled by patient
+   appointment_type ENUM('Regular Checkup', 'Specific Treatment', 'Consultation'), -- filled by patient
    reason TEXT NOT NULL,-- filled by patient
    chief_complaint TEXT,
    duration_severity TEXT,
@@ -73,3 +73,15 @@ CREATE TABLE staff (
    staffType ENUM('secretary', 'doctor', 'admin') DEFAULT NULL,
    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE payments (
+    paymentID INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    patientID INT NOT NULL,
+    appointmentID INT NOT NULL,
+    paymentAmount INT,
+    paymentStatus BOOLEAN DEFAULT false,
+    paid_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (patientID) REFERENCES patient(patientID),
+    FOREIGN KEY (appointmentID) REFERENCES appointments(appointmentID)
+);
+

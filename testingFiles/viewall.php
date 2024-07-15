@@ -23,6 +23,12 @@ $staffSql = "SELECT * FROM staff";
 $staffResult = $conn->query($staffSql);
 ?>
 
+<?php
+// Fetch all payments
+$paymentsSql = "SELECT * FROM payments";
+$paymentsResult = $conn->query($paymentsSql);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -226,6 +232,38 @@ $staffResult = $conn->query($staffSql);
         <?php else: ?>
             <p>No staff found.</p>
         <?php endif; ?>
+
+        <!-- Payments Table -->
+        <h2 class="text-2xl font-bold mb-4">Payments</h2>
+        <?php if ($paymentsResult->num_rows > 0): ?>
+            <table class="min-w-full divide-y divide-gray-200 mb-6">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment ID</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Patient ID</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Appointment ID</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment Amount</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Paid On</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <?php while($payment = $paymentsResult->fetch_assoc()): ?>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap"><?php echo $payment['paymentID']; ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap"><?php echo $payment['patientID']; ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap"><?php echo $payment['appointmentID']; ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap"><?php echo $payment['paymentAmount']; ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap"><?php echo $payment['paymentStatus']; ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap"><?php echo $payment['paid_on']; ?></td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+        <?php else: ?>
+            <p>No payments found.</p>
+        <?php endif; ?>
+
 
     </div>
 </body>

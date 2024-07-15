@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root"; 
 $password = ""; 
-$dbname = "patient_management_system";
+$dbname = "clinicManagementSystem";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
