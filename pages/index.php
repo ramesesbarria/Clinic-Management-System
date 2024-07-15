@@ -7,6 +7,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
     <style>
         * {
             font-family: 'Merriweather', serif;
@@ -37,11 +38,9 @@
             color: #fff;
             background-color: #12229D;
             border: 2px solid #12229D;
-            padding: 10px 20px; /* Custom padding */
-            font-size: 16px; /* Custom font size */
+            font-size: 0.8rem;
             transition: background-color 0.3s, border-color 0.3s;
         }
-
         .btn-primary:hover {
             background-color: #12229D;
             border-color: #12229D;
@@ -67,7 +66,7 @@
         <div class="container">
             <h3>Welcome to Our Clinic</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vehicula ex euismod eros consectetur, non tempor ex euismod.</p>
-            <a href="book-appointment.php" class="btn btn-primary">Book an Appointment</a>
+            <a href="loginForm.php" class="btn btn-primary">Book an Appointment</a>
         </div>
     </header>
 
@@ -93,8 +92,14 @@
         </div>
     </section>
 
-    <?php include 'footer.php'; ?>
+    <a href="#" id="btnScrollToTop" class="btn-scroll-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Footer Section -->
+    <?php include '../components/footer.php'; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/scroll-to-top.js"></script>
 </body>
 </html>

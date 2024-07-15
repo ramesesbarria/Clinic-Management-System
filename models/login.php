@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Determine the dashboard based on staff type
                 switch ($user_staff['staffType']) {
                     case 'secretary':
-                        header("Location: ../Pages/secretary_dashboard.php");
+                        header("Location: ../Pages/secretary.php");
                         exit();
                     case 'doctor':
                         header("Location: ../Pages/doctor_dashboard.php");

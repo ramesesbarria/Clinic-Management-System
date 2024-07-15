@@ -6,18 +6,7 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-            .footer { 
-                margin-top: 25px;
-                background-color: #12229D;
-                padding: 20px; 
-                text-align: center; 
-                color: white;
-            }
-            .footer p {
-                margin-bottom: 5px;
-            }
-        </style>
+        <link rel="stylesheet" href="../assets/css/styles.css">
     </head>
     <body>
         <footer class="footer">
