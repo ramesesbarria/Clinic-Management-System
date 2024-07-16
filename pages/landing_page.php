@@ -27,7 +27,7 @@
         }
         .navbar .dropdown-menu {
             margin-top: 2px; /* Adjust dropdown position */
-            position: absolute;
+            position: absolute !important;
         }
         .header {
             text-align: center;
