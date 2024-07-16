@@ -25,7 +25,7 @@ $appointment = mysqli_fetch_assoc($resultAppointment);
 
 // Fetch patient details
 $patientID = $appointment['patientID'];
-$queryPatient = "SELECT first_name, last_name FROM patient WHERE patientID = $patientID";
+$queryPatient = "SELECT * FROM patient WHERE patientID = $patientID";
 $resultPatient = mysqli_query($conn, $queryPatient);
 $patient = mysqli_fetch_assoc($resultPatient);
 
@@ -120,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['logout'])) {
         mysqli_query($conn, $insertPrescription);
     }
 
-    $archiveAppointment = "UPDATE appointments SET completed = 1, approved = 0 WHERE appointmentID = $appointmentID";
+    $archiveAppointment = "UPDATE appointments SET completed = 1 WHERE appointmentID = $appointmentID";
     mysqli_query($conn, $archiveAppointment);
 
     // Redirect to doctor dashboard
@@ -149,7 +149,14 @@ if (isset($_POST['logout'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Appointment</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/styles.css">
     <style>
+        * {
+            font-family: 'Merriweather', serif;
+        }
         body {
             background-image: url('../img/background.png'); /* Replace with your actual path */
             background-size: cover;
@@ -157,7 +164,35 @@ if (isset($_POST['logout'])) {
             background-attachment: fixed;
         }
         .navbar {
-            justify-content: space-between;
+            background-color: #f8f9fa;
+            position: relative;
+            z-index: 1000; /* Ensure navbar is above other content */
+        }
+        .navbar-brand img {
+            height: 100px;
+        }
+        .navbar .dropdown-menu {
+            margin-top: 2px; /* Adjust dropdown position */
+            position: absolute !important;
+        }
+        .header {
+            text-align: center;
+            padding: 50px 20px;
+            background-image: url('../img/background.png');
+            background-size: cover;
+            background-position: center;
+            color: white; /* Ensure text is visible over background */
+        }
+        .btn-primary {
+            color: #fff;
+            background-color: #12229D;
+            border: 2px solid #12229D;
+            font-size: 16px; /* Custom font size */
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #12229D;
+            border-color: #12229D;
         }
         .form-section {
             margin-bottom: 20px;
@@ -181,22 +216,68 @@ if (isset($_POST['logout'])) {
         .hidden {
             display: none;
         }
+
+        .front {
+            z-index: 100;
+        }
+
+        .back {
+            z-index: 99;
+        }
+        .d-flex {
+            gap:50px;
+        }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand">Doctor Dashboard</a>
-        <p class="mr-3 mt-2">Welcome, <?php echo $doctorFirstName; ?></p>
-        <form method="post" class="form-inline">
-            <button type="submit" class="btn btn-outline-danger my-2 my-sm-0" name="logout">Logout</button>
-        </form>
-    </nav>
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="../img/horizontallogo.png" alt="Clinic Logo">
+        </a>
+
+        <ul class="navbar-nav ms-auto front">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #12229D">
+                    <i class="fas fa-user-circle fa-lg" style="color: #12229D"></i> <!-- Font Awesome profile icon -->
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="appointment_history.php">Appointment History</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="../Models/handleLogout.php">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
     <div class="container mt-3">
-        <div class="mb-3 sticky shadow-sm p-3 mb-5 bg-white rounded d-flex justify-content-around" id="appointmentInfo">
-        <div><a href="doctorDashboard.php" class="btn btn-secondary">Back to Dashboard</a></div>
-        <div><p><strong>Patient Name:</strong> <a href="patient_history.php?patientID=<?php echo $patientID; ?>"><?php echo $patient['first_name'] . ' ' . $patient['last_name']; ?></a></p></div>
+        <div class="mb-3 sticky shadow-sm p-3 mb-5 bg-white rounded d-flex justify-content-around back" id="appointmentInfo">
+    <div class="row">
+            <div class="bg-white d-flex justify-content-around bg-primary" style="margin-bottom: 10px;">
+        <div><a href="doctorDashboard.php" class="btn btn-primary">Back to Dashboard</a></div>
         <div><p><strong>Preferred Date:</strong> <?php echo date('F j, Y', strtotime($appointment['date_preference'])); ?></p></div>
         <div><p><strong>Preferred Time:</strong> <?php echo date('h:i A', strtotime($appointment['time_preference'])); ?></p></div>
+    </div>
+    <div class="bg-white d-flex justify-content-around bg-primary">
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Date Of Birth</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><?php echo $patient['first_name'] . ' ' . $patient['last_name']; ?></td>
+      <td><?php echo date('F j, Y', strtotime($patient['dob'])); ?></td>
+      <td><a href="patient_history.php?patientID=<?php echo $patientID; ?>" class="btn btn-secondary">History</a></td>
+    </tr>
+    <tr>
+  </tbody>
+</table>
+    </div>
+    </div>
         </div>
         <h2 class="shadow-none p-3 mb-5 bg-light rounded">Update Appointment</h2>
         <form method="post" id="updateForm">
@@ -287,16 +368,14 @@ if (isset($_POST['logout'])) {
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary" id="btnSubmit" style="display: none;">Submit</button>
         </form>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
     <script>
         // Confirmation popup for update
         document.getElementById('btnUpdate').addEventListener('click', function() {
             if (confirm('Are you sure you want to update this information?')) {
-                document.getElementById('btnSubmit').click(); // Click the hidden submit button
+                document.getElementById('updateForm').submit();
             }
         });
 
@@ -313,6 +392,8 @@ if (isset($_POST['logout'])) {
             }
         });
     </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/scroll-to-top.js"></script>
 </body>
 </html>
+
