@@ -73,7 +73,7 @@ $email = $_SESSION['user_email'] ?? '';
 <body>
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="../Pages/landing_page.php">
                 <img src="../img/horizontallogo.png" alt="Clinic Logo">
             </a>
 

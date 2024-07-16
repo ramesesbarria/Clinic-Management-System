@@ -131,6 +131,17 @@ mysqli_close($conn); // Close database connection
             color: #E89611 !important;
             font-weight: bold;
         }
+        .btn-primary {
+            color: #fff;
+            background-color: #12229D;
+            border: 2px solid #12229D;
+            font-size: 16px; /* Custom font size */
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #12229D;
+            border-color: #12229D;
+        }
         /* Pagination link color */
         .pagination a.page-link {
             color: #12229D;
@@ -165,7 +176,7 @@ mysqli_close($conn); // Close database connection
 <body>
 <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="../Pages/landing_page.php">
                 <img src="../img/horizontallogo.png" alt="Clinic Logo">
             </a>
 
@@ -264,7 +275,7 @@ mysqli_close($conn); // Close database connection
                                                 <div class="modal-footer">
                                                     <div class="row">
                                                         <div class="col text-end">
-                                                            <?php if ($appointment['completed'] == 1): ?>
+                                                            <?php if ($appointment['approved'] == 1 && $appointment['completed'] == 1 && $appointment['archived'] == 1 && !$editable): ?>
                                                                 <a href="view_prescription.php?appointment_id=<?php echo $appointment['appointmentID']; ?>" class="btn btn-primary text-decoration-none">
                                                                     <i class="fas fa-file-prescription fa-lg"></i> Prescription
                                                                 </a>
