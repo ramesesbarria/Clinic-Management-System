@@ -175,6 +175,7 @@ $paymentsResult = $conn->query($paymentsSql);
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Visible Signs</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Approved</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Completed</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Archived</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
                     </tr>
                 </thead>
@@ -193,6 +194,7 @@ $paymentsResult = $conn->query($paymentsSql);
                             <td class="px-6 py-4 whitespace-nowrap"><?php echo $appointment['visible_signs'] ?? 'N/A'; ?></td>
                             <td class="px-6 py-4 whitespace-nowrap"><?php echo $appointment['approved'] ? 'Yes' : 'No'; ?></td>
                             <td class="px-6 py-4 whitespace-nowrap"><?php echo $appointment['completed'] ? 'Yes' : 'No'; ?></td>
+                            <td class="px-6 py-4 whitespace-nowrap"><?php echo $appointment['archived'] ? 'Yes' : 'No'; ?></td>
                             <td class="px-6 py-4 whitespace-nowrap"><?php echo $appointment['created_at']; ?></td>
                         </tr>
                     <?php endwhile; ?>

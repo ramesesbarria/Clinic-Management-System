@@ -112,7 +112,7 @@ body {
     </nav>
     <div class="container mt-3">
         <a href="doctorDashboard.php" class="btn btn-secondary">Back to Dashboard</a>
-        <a href="doctorAppointment.php?id=<?php echo $_SESSION['appointmentID'];?>" class="btn btn-secondary">Back to Appointment</a>
+        <a href="edit.php?id=<?php echo $_SESSION['appointmentID'];?>" class="btn btn-secondary">Back to Appointment</a>
     </div>
 
     <!-- Main Content Section -->

@@ -7,7 +7,7 @@ if (!isset($_SESSION['userID']) || $_SESSION['userType'] !== 'doctor') {
     header("Location: login.html");
     exit();
 }
-$test = 0;
+
 // Fetch doctor's first name
 $doctorId = $_SESSION['userID'];
 $queryDoctor = "SELECT fname FROM staff WHERE staffID = $doctorId";
@@ -35,15 +35,16 @@ $resultPatientRecord = mysqli_query($conn, $queryPatientRecord);
 $patientRecord = mysqli_fetch_assoc($resultPatientRecord);
 
 $_SESSION['appointmentID'] = $appointment['appointmentID'];
+
 // Handle form submission to update appointment and patient record
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['logout'])) {
     // Update appointment
-    $chief_complaint = $_POST['chief_complaint'];
-    $duration_severity = $_POST['duration_severity'];
-    $general_appearance = $_POST['general_appearance'];
-    $visible_signs = $_POST['visible_signs'];
+    $chief_complaint = isset($_POST['chief_complaint']) ? $_POST['chief_complaint'] : '';
+    $duration_severity = isset($_POST['duration_severity']) ? $_POST['duration_severity'] : '';
+    $general_appearance = isset($_POST['general_appearance']) ? $_POST['general_appearance'] : '';
+    $visible_signs = isset($_POST['visible_signs']) ? $_POST['visible_signs'] : '';
 
-    $updateAppointment = "UPDATE appointments SET 
+    $updateAppointment = "UPDATE appointments SET
                           chief_complaint = '$chief_complaint',
                           duration_severity = '$duration_severity',
                           general_appearance = '$general_appearance',
@@ -53,40 +54,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['logout'])) {
     mysqli_query($conn, $updateAppointment);
 
     // Update patient record
-    $medical_history = $_POST['medical_history'];
-    $height = $_POST['height'];
-    $weight = $_POST['weight'];
-    $blood_pressure = $_POST['blood_pressure'];
-    $pulse_rate = $_POST['pulse_rate'];
-    $temperature = $_POST['temperature'];
-    $respiratory_rate = $_POST['respiratory_rate'];
-    $current_medications = $_POST['current_medications'];
-    $past_medications = $_POST['past_medications'];
-    $allergies = $_POST['allergies'];
-    $major_past_illnesses = $_POST['major_past_illnesses'];
+    $medical_history = isset($_POST['medical_history']) ? $_POST['medical_history'] : '';
+    $height = isset($_POST['height']) ? $_POST['height'] : '';
+    $weight = isset($_POST['weight']) ? $_POST['weight'] : '';
+    $blood_pressure = isset($_POST['blood_pressure']) ? $_POST['blood_pressure'] : '';
+    $pulse_rate = isset($_POST['pulse_rate']) ? $_POST['pulse_rate'] : '';
+    $temperature = isset($_POST['temperature']) ? $_POST['temperature'] : '';
+    $respiratory_rate = isset($_POST['respiratory_rate']) ? $_POST['respiratory_rate'] : '';
+    $current_medications = isset($_POST['current_medications']) ? $_POST['current_medications'] : '';
+    $past_medications = isset($_POST['past_medications']) ? $_POST['past_medications'] : '';
+    $allergies = isset($_POST['allergies']) ? $_POST['allergies'] : '';
+    $major_past_illnesses = isset($_POST['major_past_illnesses']) ? $_POST['major_past_illnesses'] : '';
 
-    $updatePatientRecord = "UPDATE patientRecord SET 
-                            medical_history = '$medical_history',
-                            height = $height,
-                            weight = $weight,
-                            blood_pressure = '$blood_pressure',
-                            pulse_rate = $pulse_rate,
-                            temperature = $temperature,
-                            respiratory_rate = $respiratory_rate,
-                            current_medications = '$current_medications',
-                            past_medications = '$past_medications',
-                            allergies = '$allergies',
-                            major_past_illnesses = '$major_past_illnesses'
-                            WHERE appointmentID = $appointmentID";
+    // Update patient record
+    $medical_history = isset($_POST['medical_history']) ? $_POST['medical_history'] : '';
+    $height = isset($_POST['height']) ? $_POST['height'] : 'NULL'; // Use 'NULL' for SQL NULL value
+    $weight = isset($_POST['weight']) ? $_POST['weight'] : 'NULL'; // Use 'NULL' for SQL NULL value
+    $blood_pressure = isset($_POST['blood_pressure']) ? $_POST['blood_pressure'] : '';
+    $pulse_rate = isset($_POST['pulse_rate']) ? $_POST['pulse_rate'] : 'NULL'; // Use 'NULL' for SQL NULL value
+    $temperature = isset($_POST['temperature']) ? $_POST['temperature'] : 'NULL'; // Use 'NULL' for SQL NULL value
+    $respiratory_rate = isset($_POST['respiratory_rate']) ? $_POST['respiratory_rate'] : 'NULL'; // Use 'NULL' for SQL NULL value
+    $current_medications = isset($_POST['current_medications']) ? $_POST['current_medications'] : '';
+    $past_medications = isset($_POST['past_medications']) ? $_POST['past_medications'] : '';
+    $allergies = isset($_POST['allergies']) ? $_POST['allergies'] : '';
+    $major_past_illnesses = isset($_POST['major_past_illnesses']) ? $_POST['major_past_illnesses'] : '';
 
-    mysqli_query($conn, $updatePatientRecord);
+    // Build the SQL query using mysqli_real_escape_string for string values
+   // Update patient record
+   $medical_history = isset($_POST['medical_history']) ? $_POST['medical_history'] : '';
+   $height = isset($_POST['height']) ? floatval($_POST['height']) : 'NULL'; // Use 'NULL' for SQL NULL value
+   $weight = isset($_POST['weight']) ? floatval($_POST['weight']) : 'NULL'; // Use 'NULL' for SQL NULL value
+   $blood_pressure = isset($_POST['blood_pressure']) ? $_POST['blood_pressure'] : '';
+   $pulse_rate = isset($_POST['pulse_rate']) ? intval($_POST['pulse_rate']) : 'NULL'; // Use 'NULL' for SQL NULL value
+   $temperature = isset($_POST['temperature']) ? floatval($_POST['temperature']) : 'NULL'; // Use 'NULL' for SQL NULL value
+   $respiratory_rate = isset($_POST['respiratory_rate']) ? intval($_POST['respiratory_rate']) : 'NULL'; // Use 'NULL' for SQL NULL value
+   $current_medications = isset($_POST['current_medications']) ? $_POST['current_medications'] : '';
+   $past_medications = isset($_POST['past_medications']) ? $_POST['past_medications'] : '';
+   $allergies = isset($_POST['allergies']) ? $_POST['allergies'] : '';
+   $major_past_illnesses = isset($_POST['major_past_illnesses']) ? $_POST['major_past_illnesses'] : '';
 
-    if ($_POST['prescription_visible'] === '1') {
+   // Build the SQL query using mysqli_real_escape_string for string values
+   $updatePatientRecord = "UPDATE patientRecord SET
+                           medical_history = '" . mysqli_real_escape_string($conn, $medical_history) . "',
+                           height = $height,
+                           weight = $weight,
+                           blood_pressure = '" . mysqli_real_escape_string($conn, $blood_pressure) . "',
+                           pulse_rate = $pulse_rate,
+                           temperature = $temperature,
+                           respiratory_rate = $respiratory_rate,
+                           current_medications = '" . mysqli_real_escape_string($conn, $current_medications) . "',
+                           past_medications = '" . mysqli_real_escape_string($conn, $past_medications) . "',
+                           allergies = '" . mysqli_real_escape_string($conn, $allergies) . "',
+                           major_past_illnesses = '" . mysqli_real_escape_string($conn, $major_past_illnesses) . "'
+                           WHERE appointmentID = $appointmentID";
+
+   mysqli_query($conn, $updatePatientRecord);
+
+    if (isset($_POST['prescription_visible']) && $_POST['prescription_visible'] === '1') {
         // Insert new row in prescriptions table
-        $prescription_text = $_POST['prescription_text'];
-        $doctors_notes = $_POST['doctors_notes'];
-        $diagnosis = $_POST['diagnosis'];
-        
+        $prescription_text = isset($_POST['prescription_text']) ? $_POST['prescription_text'] : '';
+        $doctors_notes = isset($_POST['doctors_notes']) ? $_POST['doctors_notes'] : '';
+        $diagnosis = isset($_POST['diagnosis']) ? $_POST['diagnosis'] : '';
+
         $insertPrescription = "INSERT INTO prescription (patientID, prescription_text, doctors_notes, diagnosis) VALUES ('$patientID', '$prescription_text', '$doctors_notes', '$diagnosis')";
         mysqli_query($conn, $insertPrescription);
     }
@@ -258,14 +287,16 @@ if (isset($_POST['logout'])) {
                     </div>
                 </div>
             </div>
+            <button type="submit" class="btn btn-primary" id="btnSubmit" style="display: none;">Submit</button>
         </form>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
     <script>
         // Confirmation popup for update
         document.getElementById('btnUpdate').addEventListener('click', function() {
             if (confirm('Are you sure you want to update this information?')) {
-                document.getElementById('updateForm').submit();
+                document.getElementById('btnSubmit').click(); // Click the hidden submit button
             }
         });
 
@@ -285,4 +316,3 @@ if (isset($_POST['logout'])) {
 
 </body>
 </html>
-

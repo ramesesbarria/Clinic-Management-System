@@ -15,15 +15,15 @@ $rowDoctor = mysqli_fetch_assoc($resultDoctor);
 $doctorFirstName = $rowDoctor['fname'];
 
 // Default query to fetch all 'approved' appointments
-$queryAppointments = "SELECT 
-                        appointments.appointmentID, 
-                        appointments.date_preference, 
-                        appointments.time_preference, 
-                        appointments.reason, 
-                        patient.first_name AS patient_fname, 
-                        patient.last_name AS patient_lname 
-                      FROM appointments 
-                      INNER JOIN patient ON appointments.patientID = patient.patientID 
+$queryAppointments = "SELECT
+                        appointments.appointmentID,
+                        appointments.date_preference,
+                        appointments.time_preference,
+                        appointments.reason,
+                        patient.first_name AS patient_fname,
+                        patient.last_name AS patient_lname
+                      FROM appointments
+                      INNER JOIN patient ON appointments.patientID = patient.patientID
                       WHERE appointments.approved = 1";
 
 // Handling filters and search
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$queryAppointments .= " ORDER BY appointments.date_preference ASC";
+$queryAppointments .= " ORDER BY appointments.date_preference ASC, ORDER BY appointments.time_preference ASC";
 
 $resultAppointments = mysqli_query($conn, $queryAppointments);
 
