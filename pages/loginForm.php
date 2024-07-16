@@ -27,7 +27,7 @@
             padding: 30px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             border-radius: 8px;
-            max-width: 100%;
+            width: 500px;
             overflow: hidden;
             margin: 40px;
         }

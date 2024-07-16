@@ -29,106 +29,116 @@
             background-color: #12229D;
             border-color: #12229D;
         }
+        .clickable-row:hover {
+            background-color: #f0f0f0; /* Light gray background on hover */
+            cursor: pointer; /* Change cursor to pointer on hover */
+        }
     </style>
 </head>
 <body>
-    <section class="container content-container">
-        <h2>Recent Appointments</h2>
-        <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Appointment Type</th>
-                        <th>Reason</th>
-                        <th>Approved</th>
-                        <th>Prescription</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                        $user_id = $_SESSION['user_id'] ?? null;
-                        $appointments = array();
+<section class="container content-container">
+    <h2>Recent Appointments</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Appointment Type</th>
+                    <th>Reason</th>
+                    <th>Approved</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $user_id = $_SESSION['patientID'] ?? null;
+                $appointments = array();
 
-                        if ($user_id) {
-                            $sql = "SELECT * FROM appointments 
-                                    WHERE approved = true 
-                                    AND (
-                                        date_preference < CURDATE() 
-                                        OR (date_preference = CURDATE() AND time_preference < CURTIME())
-                                    )
-                                    ORDER BY date_preference ASC, time_preference ASC 
-                                    LIMIT 1";
+                if ($user_id) {
+                    // Use prepared statement to prevent SQL injection
+                    $sql = "SELECT * FROM appointments 
+                            WHERE patientID = ? 
+                            AND approved = true 
+                            AND (
+                                date_preference < CURDATE() 
+                                OR (date_preference = CURDATE() AND time_preference < CURTIME())
+                            )
+                            ORDER BY date_preference DESC, time_preference DESC LIMIT 1";
 
-                            $result = mysqli_query($conn, $sql);
+                    $stmt = mysqli_prepare($conn, $sql);
+                    mysqli_stmt_bind_param($stmt, "i", $user_id);
+                    mysqli_stmt_execute($stmt);
+                    $result = mysqli_stmt_get_result($stmt);
 
-                            if (mysqli_num_rows($result) > 0) {
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    $appointments[] = $row;
-                                    // Modal section should be inside the loop to ensure each modal corresponds to its appointment
-                                    ?>
-                                    <div class="modal fade" id="appointmentModal_<?php echo $row['appointmentID']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Appointment Details</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>Date: <?php echo htmlspecialchars($row['date_preference']); ?></p>
-                                                    <p>Time: <?php echo htmlspecialchars($row['time_preference']); ?></p>
-                                                    <p>Appointment Type: <?php echo htmlspecialchars($row['appointment_type']); ?></p>
-                                                    <p>Reason: <?php echo htmlspecialchars($row['reason']); ?></p>
-                                                    <p>Chief Complaint: <?php echo htmlspecialchars($row['chief_complaint']); ?></p>
-                                                    <p>Duration Severity: <?php echo htmlspecialchars($row['duration_severity']); ?></p>
-                                                    <p>General Appearance: <?php echo htmlspecialchars($row['general_appearance']); ?></p>
-                                                    <p>Visible Signs: <?php echo htmlspecialchars($row['visible_signs']); ?></p>
-                                                    <p>Approved: <?php echo $row['approved'] ? 'Yes' : 'No'; ?></p>
-                                                    <!-- Additional details as needed -->
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    if ($result) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $appointments[] = $row;
+                            ?>
+                            <!-- Modal for Appointment Details -->
+                            <div class="modal fade" id="appointmentModal_<?php echo $row['appointmentID']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Appointment Details</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Date: <?php echo htmlspecialchars($row['date_preference']); ?></p>
+                                            <p>Time: <?php echo htmlspecialchars($row['time_preference']); ?></p>
+                                            <p>Appointment Type: <?php echo htmlspecialchars($row['appointment_type']); ?></p>
+                                            <p>Reason: <?php echo htmlspecialchars($row['reason']); ?></p>
+                                            <p>Approved: <?php echo $row['approved'] ? 'Yes' : 'No'; ?></p>
+                                            <!-- Additional details as needed -->
+                                        </div>
+                                        <div class="modal-footer">
+                                            <div class="row">
+                                                <div class="col text-end">
+                                                    <a href="view_prescription.php?appointment_id=<?php echo $row['appointmentID']; ?>" class="btn btn-primary text-decoration-none">
+                                                        <i class="fas fa-file-prescription fa-lg"></i> Prescription
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <?php
-                                }
-                            }
+                                </div>
+                            </div>
+                            <?php
                         }
+                    } else {
+                        echo "Error executing SQL: " . mysqli_error($conn);
+                    }
 
-                        // Display appointments in the table
-                        foreach ($appointments as $appointment):
-                        ?>
-                            <tr class="clickable-row" data-bs-toggle="modal" data-bs-target="#appointmentModal_<?php echo $appointment['appointmentID']; ?>">
-                                <td><?php echo htmlspecialchars($appointment['date_preference']); ?></td>
-                                <td><?php echo htmlspecialchars($appointment['time_preference']); ?></td>
-                                <td><?php echo htmlspecialchars($appointment['appointment_type']); ?></td>
-                                <td><?php echo htmlspecialchars($appointment['reason']); ?></td>
-                                <td><?php echo $appointment['approved'] ? 'Yes' : 'No'; ?></td>
-                                <td>
-                                    <a href="view_prescription.php?appointment_id=<?php echo $appointment['patientID']; ?>" class="text-decoration-none">
-                                        <i class="fas fa-file-prescription fa-lg" style="color: #12229D;"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </section>
+                    mysqli_stmt_close($stmt); // Close statement
+                }
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                mysqli_close($conn); // Close database connection
 
-    <script>
-        $(document).ready(function() {
-            $('.clickable-row').click(function() {
-                var target = $(this).data('target');
-                $(target).modal('show');
-            });
+                // Display appointments in the table
+                foreach ($appointments as $appointment):
+                ?>
+                    <tr class="clickable-row" data-bs-toggle="modal" data-bs-target="#appointmentModal_<?php echo $appointment['appointmentID']; ?>">
+                        <td><?php echo htmlspecialchars($appointment['date_preference']); ?></td>
+                        <td><?php echo htmlspecialchars($appointment['time_preference']); ?></td>
+                        <td><?php echo htmlspecialchars($appointment['appointment_type']); ?></td>
+                        <td><?php echo htmlspecialchars($appointment['reason']); ?></td>
+                        <td><?php echo $appointment['approved'] ? 'Yes' : 'No'; ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('.clickable-row').click(function() {
+            var target = $(this).data('target');
+            $(target).modal('show');
         });
-    </script>
+    });
+</script>
 </body>
 </html>
