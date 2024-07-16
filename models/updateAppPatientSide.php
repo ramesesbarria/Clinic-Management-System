@@ -18,8 +18,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("ssssi", $date_preference, $time_preference, $appointment_type, $reason, $appointmentID);
 
         if ($stmt->execute()) {
-            // Redirect back to listing page or appropriate dashboard
-            header("Location: ../pages/landing_page.php");
+            // Determine where to redirect based on the current page
+            $redirectPage = '../pages/landing_page.php'; // Default redirect page
+
+            if (strpos($_SERVER['HTTP_REFERER'], 'appointment_history.php') !== false) {
+                $redirectPage = '../pages/appointment_history.php';
+            }
+
+            // Redirect back to appropriate page
+            header("Location: " . $redirectPage);
             exit();
         } else {
             echo "Error updating appointment: " . $stmt->error;
