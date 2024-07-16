@@ -129,7 +129,7 @@ $email = $_SESSION['user_email'] ?? '';
                                 <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required>
                             </div>
                             <div class="text-end">
-                                <button type="submit" class="btn btn-primary">Update Profile</button>
+                                <button type="submit" class="btn btn-primary" onclick="return confirmUpdate();">Update Profile</button>
                             </div>
                         </form>
                     </div>
@@ -139,5 +139,20 @@ $email = $_SESSION['user_email'] ?? '';
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Function to confirm before submitting the form
+        function confirmUpdate() {
+            // Display confirmation dialog
+            if (confirm('Are you sure you want to update your profile?')) {
+                // If user confirms, submit the form
+                document.querySelector('form').submit();
+                alert('Appointment edited successfully!');
+            } else {
+                // If user cancels, do nothing
+                location.reload();
+                return false;
+            }
+        }
+    </script>
 </body>
 </html>
