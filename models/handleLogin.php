@@ -67,6 +67,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     case 'doctor':
                         header("Location: ../Pages/doctorDashboard.php");
                         exit();
+                    case 'admin':
+                        header("Location: ../Pages/adminDashboard.php");
+                        exit();
                     default:
                         // Handle other staff types if necessary
                         header("Location: ../Pages/landing_page.php");
