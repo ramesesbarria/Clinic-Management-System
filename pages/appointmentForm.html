@@ -5,16 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Appointment Booking Form</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('../img/background.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Update with your preferred font stack */
+        }
+    </style>
 </head>
-<body class="bg-gray-100 p-6">
+<body class="bg-gray-100 p-6 flex items-center justify-center min-h-screen">
 
-<div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
-    <h2 class="text-2xl font-bold mb-6">Book an Appointment</h2>
-    <form action="../models/submitAppointment.php" method="POST" class="space-y-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="max-w-lg w-full bg-white p-8 rounded-lg shadow-lg">
+    <h2 class="text-3xl font-semibold text-gray-800 mb-6">Book an Appointment</h2>
+    <form action="../models/submitAppointment.php" method="POST" class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
                 <label for="appointment_type" class="block text-sm font-medium text-gray-700">Type of Appointment:</label>
-                <select id="appointment_type" name="appointment_type" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <select id="appointment_type" name="appointment_type" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     <option value="regular_checkup">Regular Check-up</option>
                     <option value="specific_treatment">Specific Treatment</option>
                     <option value="consultation">Consultation</option>
@@ -22,20 +31,19 @@
             </div>
             <div>
                 <label for="time_preference" class="block text-sm font-medium text-gray-700">Preferred Time:</label>
-                <input type="time" id="time_preference" name="time_preference" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <input type="time" id="time_preference" name="time_preference" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             </div>
             <div>
                 <label for="date_preference" class="block text-sm font-medium text-gray-700">Preferred Date:</label>
-                <input type="date" id="date_preference" name="date_preference" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <input type="date" id="date_preference" name="date_preference" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             </div>
             <div class="col-span-2">
                 <label for="reason" class="block text-sm font-medium text-gray-700">Reason for Appointment:</label>
-                <textarea id="reason" name="reason" rows="4" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
+                <textarea id="reason" name="reason" rows="4" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
             </div>
         </div>
-        <!-- Submit Button -->
-        <div class="mt-6">
-            <button type="submit" class="w-full bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Submit</button>
+        <div class="mt-8">
+            <button type="submit" class="w-full bg-blue-500 text-white py-3 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Submit</button>
         </div>
     </form>
 </div>

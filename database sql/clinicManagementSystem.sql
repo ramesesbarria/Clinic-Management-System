@@ -15,27 +15,6 @@ CREATE TABLE patient (
    UNIQUE KEY email (email)
 );
 
-CREATE TABLE patientRecord (
-   patientRecordID INT AUTO_INCREMENT PRIMARY KEY,
-   patientID INT NOT NULL,
-   appointmentID INT NOT NULL,
-   medical_history TEXT,
-   height DECIMAL(5, 2),
-   weight DECIMAL(5, 2),
-   blood_pressure VARCHAR(50),
-   pulse_rate INT,
-   temperature DECIMAL(4, 1),
-   respiratory_rate INT,
-   current_medications TEXT,
-   past_medications TEXT,
-   allergies TEXT,
-   major_past_illnesses TEXT,
-   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-   FOREIGN KEY (patientID) REFERENCES patient(patientID),
-   FOREIGN KEY (appointmentID) REFERENCES appointments(appointmentID)
-);
-
 CREATE TABLE prescription (
    prescriptionID INT AUTO_INCREMENT PRIMARY KEY,
    patientID INT NOT NULL,
@@ -83,5 +62,26 @@ CREATE TABLE payments (
     paid_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (patientID) REFERENCES patient(patientID),
     FOREIGN KEY (appointmentID) REFERENCES appointments(appointmentID)
+);
+
+CREATE TABLE patientRecord (
+   patientRecordID INT AUTO_INCREMENT PRIMARY KEY,
+   patientID INT NOT NULL,
+   appointmentID INT NOT NULL,
+   medical_history TEXT,
+   height DECIMAL(5, 2),
+   weight DECIMAL(5, 2),
+   blood_pressure VARCHAR(50),
+   pulse_rate INT,
+   temperature DECIMAL(4, 1),
+   respiratory_rate INT,
+   current_medications TEXT,
+   past_medications TEXT,
+   allergies TEXT,
+   major_past_illnesses TEXT,
+   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+   FOREIGN KEY (patientID) REFERENCES patient(patientID),
+   FOREIGN KEY (appointmentID) REFERENCES appointments(appointmentID)
 );
 
