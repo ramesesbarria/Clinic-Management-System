@@ -1,4 +1,34 @@
-<?php include 'db.php'; ?>
+<?php
+include '../Models/db.php'; // Include database configuration
+
+// Fetch appointments for the logged-in user
+$user_id = $_SESSION['patientID'] ?? null;
+$appointments = array();
+
+if ($user_id) {
+    // Get today's date
+    $today = date('Y-m-d');
+
+    // Retrieve actual data with limit for 5 most recent appointments from today
+    $sql = "SELECT * FROM appointments WHERE patientID = ? AND date_preference <= ? ORDER BY date_preference DESC, time_preference DESC LIMIT 5";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "is", $user_id, $today);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $appointments[] = $row;
+        }
+    } else {
+        echo "Error executing SQL: " . mysqli_error($conn);
+    }
+
+    mysqli_stmt_close($stmt); // Close statement
+}
+
+mysqli_close($conn); // Close database connection
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -63,102 +93,174 @@
             }
         }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Additional custom scripts -->
+    <script>
+        function toggleDetails(appointmentID) {
+            $('#detailsSection_' + appointmentID).hide();
+            // Hide edit section (if shown)
+            $('#editSection_' + appointmentID).hide();
+            // Show prescription section
+            $('#prescriptionSection_' + appointmentID).show();
+        }
+
+        function toggleModal(appointmentID) {
+            $('#detailsSection_' + appointmentID).show();
+            // Hide edit section (if shown)
+            $('#editSection_' + appointmentID).hide();
+            // Show prescription section
+            $('#prescriptionSection_' + appointmentID).hide();
+        }
+
+        function submitForm(appointmentID) {
+            // Show confirmation dialog
+            if (confirm('Are you sure you want to save these changes?')) {
+                // If user confirms, submit the form
+                document.getElementById('editAppointmentForm_' + appointmentID).submit();
+                alert('Appointment edited successfully!');
+            } else {
+                // If user cancels, do nothing
+                location.reload();
+                return false;
+            }
+        }
+
+        $(document).ready(function() {
+            $('.fetch-prescription-btn').click(function(e) {
+                e.preventDefault();
+                var appointmentID = $(this).data('appointment-id'); // Get appointmentID from data attribute or URL params
+                var prescriptionSection = $('#prescriptionSection_' + appointmentID);
+
+                // AJAX request to fetch prescription
+                $.ajax({
+                    url: '../Models/fetchPrescriptions.php',
+                    type: 'GET',
+                    data: {
+                        appointmentID: appointmentID
+                    },
+                    dataType: 'html',
+                    success: function(response) {
+                        prescriptionSection.html(response); // Populate prescription content
+                        prescriptionSection.show(); // Show prescription section
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching prescription:', error);
+                        // Optionally handle errors here
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
-<section class="container content-container">
-    <h3>Recent Appointments</h3>
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $user_id = $_SESSION['patientID'] ?? null;
-                $appointments = array();
+    <section class="container content-container">
+        <h3>Recent Appointments</h3>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($appointments as $appointment):
+                        $appointmentDateTime = strtotime($appointment['date_preference'] . ' ' . $appointment['time_preference']);
+                        $currentDateTime = time();
+                        $editable = ($appointmentDateTime - $currentDateTime) > (24 * 3600); // 24 hours in seconds
+                        $isPastAppointment = ($appointmentDateTime < $currentDateTime);
+                    ?>
+                        <tr class="clickable-row" data-bs-toggle="modal" data-bs-target="#appointmentModal_<?php echo $appointment['appointmentID']; ?>">
+                            <td><?php echo htmlspecialchars($appointment['date_preference']); ?></td>
+                            <td><?php echo htmlspecialchars($appointment['time_preference']); ?></td>
+                            <td><?php echo htmlspecialchars($appointment['appointment_type']); ?></td>
+                            <td class="<?php echo getStatusClass($appointment); ?>">
+                                <?php echo getStatusText($appointment); ?>
+                            </td>
+                        </tr>
 
-                if ($user_id) {
-                    // Use prepared statement to prevent SQL injection
-                    $sql = "SELECT * 
-                            FROM appointments 
-                            WHERE patientID = ? 
-                            AND (completed = true 
-                            AND date_preference <= CURDATE())
-                            ORDER BY date_preference DESC, time_preference DESC 
-                            LIMIT 5";
-
-                    $stmt = mysqli_prepare($conn, $sql);
-                    mysqli_stmt_bind_param($stmt, "i", $user_id);
-                    mysqli_stmt_execute($stmt);
-                    $result = mysqli_stmt_get_result($stmt);
-
-                    if ($result) {
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            $appointments[] = $row;
-                            ?>
-                            <!-- Modal for Appointment Details -->
-                            <div class="modal fade" id="appointmentModal_<?php echo $row['appointmentID']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Appointment Details</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <div class="modal fade" id="appointmentModal_<?php echo $appointment['appointmentID']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Appointment Details</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="toggleModal('<?php echo $appointment['appointmentID']; ?>')"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div id="detailsSection_<?php echo $appointment['appointmentID']; ?>">
+                                            <p><span class="label-date">Date:</span> <?php echo htmlspecialchars($appointment['date_preference']); ?></p>
+                                            <p><span class="label-time">Time:</span> <?php echo htmlspecialchars($appointment['time_preference']); ?></p>
+                                            <p><span class="label-type">Type:</span> <?php echo htmlspecialchars($appointment['appointment_type']); ?></p>
+                                            <p><span class="label-reason">Reason:</span> <?php echo htmlspecialchars($appointment['reason']); ?></p>
+                                            <p><span class="label-status">Status:</span> <span class="<?php echo getStatusClass($appointment); ?>">
+                                                <?php echo getStatusText($appointment); ?>
+                                            </span></p>
                                         </div>
-                                        <div class="modal-body">
-                                            <p><span class="label-date">Date:</span> <?php echo htmlspecialchars($row['date_preference']); ?></p>
-                                            <p><span class="label-time">Time:</span> <?php echo htmlspecialchars($row['time_preference']); ?></p>
-                                            <p><span class="label-type">Type:</span> <?php echo htmlspecialchars($row['appointment_type']); ?></p>
-                                            <p><span class="label-reason">Reason:</span> <?php echo htmlspecialchars($row['reason']); ?></p>
-                                            <p><span class="label-status">Status:</span> <span class="<?php echo $row['archived'] ? 'status-complete' : 'status-pending'; ?>"><?php echo $row['archived'] ? 'Complete' : 'Pending Payment'; ?></span></p>
-                                            <!-- Additional details as needed -->
+                                        <div id="prescriptionSection_<?php echo $appointment['appointmentID']; ?>" style="display: none;">
+                                            <!-- Content for displaying prescriptions -->
+                                            <div class="mb-3">
+                                                <label for="prescriptionText_<?php echo $appointment['appointmentID']; ?>" class="form-label">Prescription Text</label>
+                                                <textarea class="form-control" id="prescriptionText_<?php echo $appointment['appointmentID']; ?>" rows="3" readonly><?php echo htmlspecialchars($prescription['prescription_text']); ?></textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="doctorsNotes_<?php echo $appointment['appointmentID']; ?>" class="form-label">Doctor's Notes</label>
+                                                <textarea class="form-control" id="doctorsNotes_<?php echo $appointment['appointmentID']; ?>" rows="3" readonly><?php echo htmlspecialchars($prescription['doctors_notes']); ?></textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="diagnosis_<?php echo $appointment['appointmentID']; ?>" class="form-label">Diagnosis</label>
+                                                <textarea class="form-control" id="diagnosis_<?php echo $appointment['appointmentID']; ?>" rows="3" readonly><?php echo htmlspecialchars($prescription['diagnosis']); ?></textarea>
+                                            </div>
                                         </div>
-                                        <div class="modal-footer">
-                                            <div class="row">
-                                                <div class="col text-end">
-                                                    <a href="view_prescription.php?appointment_id=<?php echo $row['appointmentID']; ?>" class="btn btn-primary text-decoration-none">
-                                                        <i class="fas fa-file-prescription fa-lg"></i> Prescription
-                                                    </a>
-                                                </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div class="row">
+                                            <div class="col text-end">
+                                            <?php if ($appointment['approved'] == 1 && $appointment['completed'] == 1 && !$editable): ?>
+                                                <button type="button" class="btn btn-primary fetch-prescription-btn" data-appointment-id="<?php echo $appointment['appointmentID']; ?>">
+                                                    <i class="fas fa-file-prescription fa-lg"></i> Prescription
+                                                </button>
+                                            <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <?php
-                        }
-                    } else {
-                        echo "Error executing SQL: " . mysqli_error($conn);
-                    }
-
-                    mysqli_stmt_close($stmt); // Close statement
-                }
-
-                mysqli_close($conn); // Close database connection
-
-                // Display appointments in the table
-                foreach ($appointments as $appointment):
-                    $statusClass = $appointment['archived'] ? 'status-complete' : 'status-pending';
-                    $statusText = $appointment['archived'] ? 'Complete' : 'Pending Payment';
-                ?>
-                    <tr class="clickable-row" data-bs-toggle="modal" data-bs-target="#appointmentModal_<?php echo $appointment['appointmentID']; ?>">
-                        <td><?php echo htmlspecialchars($appointment['date_preference']); ?></td>
-                        <td><?php echo htmlspecialchars($appointment['time_preference']); ?></td>
-                        <td><?php echo htmlspecialchars($appointment['appointment_type']); ?></td>
-                        <td class="<?php echo $statusClass; ?>"><?php echo $statusText; ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-</section>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+                        </div>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </section>
 </body>
 </html>
+
+<?php
+    // Function to determine the status class based on appointment details
+    function getStatusClass($appointment) {
+        if ($appointment['approved'] == 1 && $appointment['completed'] == 1 && $appointment['archived'] == 1) {
+            return 'status-complete';
+        } elseif ($appointment['approved'] == 1 && $appointment['completed'] == 1 && $appointment['archived'] == 0) {
+            return 'status-pending';
+        } elseif ($appointment['approved'] == 1 && $appointment['completed'] == 0 && $appointment['archived'] == 0) {
+            return 'status-complete';
+        } else {
+            return 'status-approval';
+        }
+    }
+
+    // Function to determine the status text based on appointment details
+    function getStatusText($appointment) {
+        if ($appointment['approved'] == 1 && $appointment['completed'] == 1 && $appointment['archived'] == 1) {
+            return 'Complete';
+        } elseif ($appointment['approved'] == 1 && $appointment['completed'] == 1 && $appointment['archived'] == 0) {
+            return 'Pending Payment';
+        } elseif ($appointment['approved'] == 1 && $appointment['completed'] == 0 && $appointment['archived'] == 0) {
+            return 'Approved';
+        } else {
+            return 'Pending Approval';
+        }
+    }
+?>

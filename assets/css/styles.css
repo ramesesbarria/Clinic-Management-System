@@ -95,7 +95,7 @@
 }
 .navbar {
     background-color: #f8f9fa;
-    position: relative;
+    position: relative !important;
     z-index: 1000; /* Ensure navbar is above other content */
 }
 .navbar-brand img {
@@ -103,7 +103,12 @@
 }
 .navbar .dropdown-menu {
     margin-top: 2px; /* Adjust dropdown position */
-    position: absolute;
+    position: absolute !important;
+}
+.faq-link {
+    margin-right: 30px;
+    color: #12229D !important;
+    font-weight: 700 !important;
 }
 .back-btn {
     color: #6e6e6e; /* Set the color of the icon */

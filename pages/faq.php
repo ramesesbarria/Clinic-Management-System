@@ -18,11 +18,6 @@
             background-attachment: fixed;
             height: 100%; /* Ensure full height background */
         }
-        .faq-link {
-            margin-right: 30px;
-            color: #12229D;
-            font-weight: 700;
-        }
         .container h1 {
             color: #fff;
             margin-bottom: 20px;
@@ -38,46 +33,37 @@
     </style>
 </head>
 <body>
-
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
-            <a class="navbar-brand" href="../Pages/index.php">
-                <img src="../img/horizontallogo.png" alt="Clinic Logo">
-            </a>
-
-            <?php
-                session_start();
-                // Check if user is logged in (you need a way to determine this, such as session variables)
-                $isLoggedIn = isset($_SESSION['patientID']); // Example condition to check if user is logged in
-                
-                if ($isLoggedIn) {
-                    // User is logged in, show profile dropdown
-                    echo '
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #12229D">
-                                <i class="fas fa-user-circle fa-lg" style="color: #12229D"></i> <!-- Font Awesome profile icon -->
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="editProfile.php">Edit Profile</a></li>
-                                <li><a class="dropdown-item" href="appointmentHistory.php">Appointment History</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="../Models/handleLogout.php">Logout</a></li>
-                            </ul>
+    <?php
+        session_start();
+        // Check if user is logged in (you need a way to determine this, such as session variables)
+        $isLoggedIn = isset($_SESSION['patientID']); // Example condition to check if user is logged in
+        
+        if ($isLoggedIn) {
+            // User is logged in, show profile dropdown
+            include 'navbar.html';
+        } else {
+            // User is not logged in, show login button
+            echo '
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container">
+                    <a class="navbar-brand" href="#">
+                        <img src="../img/horizontallogo.png" alt="Clinic Logo">
+                    </a>
+                    <ul class="navbar-nav ms-auto mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link faq-link" href="faq.php">FAQ</a>
                         </li>
-                    </ul>';
-                } else {
-                    // User is not logged in, show login button
-                    echo '
-                    <ul class="navbar-nav ms-auto">
+                    </ul>
+
+                    <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="btn btn-primary" href="loginForm.php">Login</a>
                         </li>
-                    </ul>';
-                }
-            ?>
-        </div>
-    </nav>
+                    </ul>
+                </div>
+            </nav>';
+        }
+    ?>
 
     <div class="container mt-5 mb-5">
         <?php
@@ -97,11 +83,11 @@
         <div class="accordion" id="faqAccordion">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                         How to book an appointment?
                     </button>
                 </h2>
-                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
                     <div class="accordion-body" style="font-size: 0.9rem;">
                         <p>To book an appointment through our website you may follow these steps:</p>
                         <ol>
