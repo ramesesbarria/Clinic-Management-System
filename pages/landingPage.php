@@ -23,42 +23,11 @@
             background-position: center;
             color: white; /* Ensure text is visible over background */
         }
-        .faq-link {
-            margin-right: 30px;
-            color: #12229D !important;
-            font-weight: 700 !important;
-        }
     </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light">
-    <div class="container">
-        <a class="navbar-brand" href="../Pages/landingPage.php">
-            <img src="../img/horizontallogo.png" alt="Clinic Logo">
-        </a>
-
-        <ul class="navbar-nav ms-auto mb-lg-0">
-            <li class="nav-item">
-                <a class="nav-link faq-link" href="faq.php">FAQ</a>
-            </li>
-        </ul>
-
-        <ul class="navbar-nav">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #12229D">
-                    <i class="fas fa-user-circle fa-lg" style="color: #12229D"></i> <!-- Font Awesome profile icon -->
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="editProfile.php">Edit Profile</a></li>
-                    <li><a class="dropdown-item" href="appointmentHistory.php">Appointment History</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="../Models/handleLogout.php">Logout</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-</nav>
+<?php include 'navbar.html'; ?>
 
 <header class="header">
     <div class="container">

@@ -1,3 +1,14 @@
+<?php
+    session_start();
+
+    // Check for registration success message
+    if (isset($_SESSION['registration_success']) && $_SESSION['registration_success']) {
+        echo "<script>alert('" . $_SESSION['registration_success_message'] . "');</script>";
+        unset($_SESSION['registration_success']);
+        unset($_SESSION['registration_success_message']);
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,7 +64,6 @@
         <div id="Login">
             <h4 class="mb-3 mt-3">Login</h4>
             <?php
-            session_start();
             if (isset($_SESSION['login_error'])) {
                 echo '<p class="error">' . $_SESSION['login_error'] . '</p>';
                 unset($_SESSION['login_error']);
@@ -78,7 +88,7 @@
 
     <script>
         function showRegister() {
-            window.location.href = 'registrationForm.html'; // Redirect to the registration form
+            window.location.href = 'registrationForm.php'; // Redirect to the registration form
         }
     </script>
 </body>

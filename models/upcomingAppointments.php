@@ -214,7 +214,7 @@ if ($user_id) {
                                         <div class="row">
                                             <div class="col text-end">
                                                 <?php if ($isPastAppointment): ?>
-                                                    <a href="view_prescription.php?appointment_id=<?php echo $appointment['patientID']; ?>" class="btn btn-primary text-decoration-none">
+                                                    <a href="../Models/php?appointment_id=<?php echo $appointment['patientID']; ?>" class="btn btn-primary text-decoration-none">
                                                         <i class="fas fa-file-prescription fa-lg"></i> Prescription
                                                     </a>
                                                 <?php endif; ?>

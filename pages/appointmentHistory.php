@@ -78,29 +78,90 @@ mysqli_close($conn); // Close database connection
             font-size: 0.8rem;
         }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Additional custom scripts -->
+    <script>
+        function toggleEdit(appointmentID) {
+            // Hide details section
+            $('#detailsSection_' + appointmentID).hide();
+            // Show edit section
+            $('#editSection_' + appointmentID).show();
+            // Change button text and onclick function
+            $('#saveChangesBtn_' + appointmentID).show();
+            $('#editBtn_' + appointmentID).hide();
+            $('#cancelBtn_' + appointmentID).hide();
+        }
+
+        function toggleDetails(appointmentID) {
+            $('#detailsSection_' + appointmentID).hide();
+            // Hide edit section (if shown)
+            $('#editSection_' + appointmentID).hide();
+            // Show prescription section
+            $('#prescriptionSection_' + appointmentID).show();
+        }
+
+        function toggleModal(appointmentID) {
+            $('#detailsSection_' + appointmentID).show();
+            // Hide edit section (if shown)
+            $('#editSection_' + appointmentID).hide();
+            // Show prescription section
+            $('#prescriptionSection_' + appointmentID).hide();
+        }
+
+        function submitForm(appointmentID) {
+            // Show confirmation dialog
+            if (confirm('Are you sure you want to save these changes?')) {
+                // If user confirms, submit the form
+                document.getElementById('editAppointmentForm_' + appointmentID).submit();
+                alert('Appointment edited successfully!');
+            } else {
+                // If user cancels, do nothing
+                location.reload();
+                return false;
+            }
+        }
+
+        function cancelAppointment(appointmentID) {
+            if (confirm('Are you sure you want to cancel this appointment?')) {
+                $.post('../models/cancelAppointment.php', { appointmentID: appointmentID }, function(data) {
+                    // Optional: Handle response from cancel appointment script
+                    alert('Appointment canceled successfully!');
+                    // Reload the page or update the UI as needed
+                    location.reload();
+                });
+            }
+        }
+
+        $(document).ready(function() {
+            $('.fetch-prescription-btn').click(function(e) {
+                e.preventDefault();
+                var appointmentID = $(this).data('appointment-id'); // Get appointmentID from data attribute or URL params
+                var prescriptionSection = $('#prescriptionSection_' + appointmentID);
+
+                // AJAX request to fetch prescription
+                $.ajax({
+                    url: '../Models/fetchPrescriptions.php',
+                    type: 'GET',
+                    data: {
+                        appointmentID: appointmentID
+                    },
+                    dataType: 'html',
+                    success: function(response) {
+                        prescriptionSection.html(response); // Populate prescription content
+                        prescriptionSection.show(); // Show prescription section
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching prescription:', error);
+                        // Optionally handle errors here
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
-            <a class="navbar-brand" href="../Pages/landingPage.php">
-                <img src="../img/horizontallogo.png" alt="Clinic Logo">
-            </a>
-
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #12229D">
-                        <i class="fas fa-user-circle fa-lg" style="color: #12229D"></i> <!-- Font Awesome profile icon -->
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="editProfile.php">Edit Profile</a></li>
-                        <li><a class="dropdown-item" href="appointmentHistory.php">Appointment History</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="../Models/handleLogout.php">Logout</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <?php include 'navbar.html'; ?>
 
     <div class="container-fluid">
         <div class="row justify-content-center">
@@ -143,7 +204,7 @@ mysqli_close($conn); // Close database connection
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalLabel">Appointment Details</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="toggleModal('<?php echo $appointment['appointmentID']; ?>')"></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <div id="detailsSection_<?php echo $appointment['appointmentID']; ?>">
@@ -154,6 +215,21 @@ mysqli_close($conn); // Close database connection
                                                         <p><span class="label-status">Status:</span> <span class="<?php echo getStatusClass($appointment); ?>">
                                                             <?php echo getStatusText($appointment); ?>
                                                         </span></p>
+                                                    </div>
+                                                    <div id="prescriptionSection_<?php echo $appointment['appointmentID']; ?>" style="display: none;">
+                                                        <!-- Content for displaying prescriptions -->
+                                                        <div class="mb-3">
+                                                            <label for="prescriptionText_<?php echo $appointment['appointmentID']; ?>" class="form-label">Prescription Text</label>
+                                                            <textarea class="form-control" id="prescriptionText_<?php echo $appointment['appointmentID']; ?>" rows="3" readonly><?php echo htmlspecialchars($prescription['prescription_text']); ?></textarea>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="doctorsNotes_<?php echo $appointment['appointmentID']; ?>" class="form-label">Doctor's Notes</label>
+                                                            <textarea class="form-control" id="doctorsNotes_<?php echo $appointment['appointmentID']; ?>" rows="3" readonly><?php echo htmlspecialchars($prescription['doctors_notes']); ?></textarea>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="diagnosis_<?php echo $appointment['appointmentID']; ?>" class="form-label">Diagnosis</label>
+                                                            <textarea class="form-control" id="diagnosis_<?php echo $appointment['appointmentID']; ?>" rows="3" readonly><?php echo htmlspecialchars($prescription['diagnosis']); ?></textarea>
+                                                        </div>
                                                     </div>
                                                     <div id="editSection_<?php echo $appointment['appointmentID']; ?>" style="display: none;">
                                                         <!-- Include the form for editing appointment -->
@@ -185,11 +261,11 @@ mysqli_close($conn); // Close database connection
                                                 <div class="modal-footer">
                                                     <div class="row">
                                                         <div class="col text-end">
-                                                            <?php if ($appointment['approved'] == 1 && $appointment['completed'] == 1 && $appointment['archived'] == 1 && !$editable): ?>
-                                                                <a href="view_prescription.php?appointment_id=<?php echo $appointment['appointmentID']; ?>" class="btn btn-primary text-decoration-none">
-                                                                    <i class="fas fa-file-prescription fa-lg"></i> Prescription
-                                                                </a>
-                                                            <?php endif; ?>
+                                                        <?php if ($appointment['approved'] == 1 && $appointment['completed'] == 1 && !$editable): ?>
+                                                            <button type="button" class="btn btn-primary fetch-prescription-btn" data-appointment-id="<?php echo $appointment['appointmentID']; ?>">
+                                                                <i class="fas fa-file-prescription fa-lg"></i> Prescription
+                                                            </a>
+                                                        <?php endif; ?>
                                                         </div>
                                                         <div class="row text-end">
                                                             <?php if ($editable): ?>
@@ -211,44 +287,6 @@ mysqli_close($conn); // Close database connection
                                             </div>
                                         </div>
                                     </div>
-                                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-                                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-                                    <script>
-                                        function toggleEdit(appointmentID) {
-                                            // Hide details section
-                                            $('#detailsSection_' + appointmentID).hide();
-                                            // Show edit section
-                                            $('#editSection_' + appointmentID).show();
-                                            // Change button text and onclick function
-                                            $('#saveChangesBtn_' + appointmentID).show();
-                                            $('#editBtn_' + appointmentID).hide();
-                                            $('#cancelBtn_' + appointmentID).hide();
-                                        }
-
-                                        function submitForm(appointmentID) {
-                                            // Show confirmation dialog
-                                            if (confirm('Are you sure you want to save these changes?')) {
-                                                // If user confirms, submit the form
-                                                document.getElementById('editAppointmentForm_' + appointmentID).submit();
-                                                alert('Appointment edited successfully!');
-                                            } else {
-                                                // If user cancels, do nothing
-                                                location.reload();
-                                                return false;
-                                            }
-                                        }
-
-                                        function cancelAppointment(appointmentID) {
-                                            if (confirm('Are you sure you want to cancel this appointment?')) {
-                                                $.post('../models/cancelAppointment.php', { appointmentID: appointmentID }, function(data) {
-                                                    // Optional: Handle response from cancel appointment script
-                                                    alert('Appointment canceled successfully!');
-                                                    // Reload the page or update the UI as needed
-                                                    location.reload();
-                                                });
-                                            }
-                                        }
-                                    </script>
                                 <?php endforeach; ?>
                                 <?php
                                 // Function to determine the status class based on appointment details

@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $conn->prepare("UPDATE patient SET first_name=?, last_name=?, dob=?, address=?, phone_number=?, email=? WHERE patientID=?");
 
     // Bind parameters and execute the statement
-    $stmt->bind_param("ssssssi", $firstName, $lastName, $dob, $address, $phoneNumber, $email, $_SESSION['user_id']);
+    $stmt->bind_param("ssssssi", $firstName, $lastName, $dob, $address, $phoneNumber, $email, $_SESSION['patientID']);
     if ($stmt->execute()) {
         // Redirect back to edit_profile.php on success
         header("Location: ../Pages/editProfile.php");

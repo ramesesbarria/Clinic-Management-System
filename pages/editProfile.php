@@ -34,27 +34,8 @@ $email = $_SESSION['user_email'] ?? '';
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
-            <a class="navbar-brand" href="../Pages/landingPage.php">
-                <img src="../img/horizontallogo.png" alt="Clinic Logo">
-            </a>
-
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #12229D">
-                        <i class="fas fa-user-circle fa-lg" style="color: #12229D"></i> <!-- Font Awesome profile icon -->
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="editProfile.php">Edit Profile</a></li>
-                        <li><a class="dropdown-item" href="appointmentHistory.php">Appointment History</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="../Models/handleLogout.php">Logout</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <?php include 'navbar.html'; ?>
+    
     <div class="container mt-5 mb-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -109,7 +90,7 @@ $email = $_SESSION['user_email'] ?? '';
             if (confirm('Are you sure you want to update your profile?')) {
                 // If user confirms, submit the form
                 document.querySelector('form').submit();
-                alert('Appointment edited successfully!');
+                alert('Profile edited successfully!');
             } else {
                 // If user cancels, do nothing
                 location.reload();
