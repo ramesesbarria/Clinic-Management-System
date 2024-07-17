@@ -52,15 +52,13 @@ mysqli_close($conn); // Close database connection
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Appointment History</title>
+    <title>Medical Clinic - Appointment History</title>
+    <link rel="icon" type="image/x-icon" href="../img/logo.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/styles.css">
     <style>
-        * {
-            font-family: 'Merriweather', serif;
-        }
         body {
             background-image: url('../img/background.png');
             background-size: cover;
@@ -76,107 +74,15 @@ mysqli_close($conn); // Close database connection
             margin: 15px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
-        .table {
-            text-align: center;
-            border: 1px solid grey;
-        }
-        .table th {
-            background-color: #12229D; /* Background color for the column headers */
-            color: #fff; /* Text color for the column headers */
-        }
-        .navbar {
-            background-color: #f8f9fa;
-            position: relative;
-            z-index: 1000; /* Ensure navbar is above other content */
-        }
-        .navbar-brand img {
-            height: 100px;
-        }
-        .navbar .dropdown-menu {
-            margin-top: 2px; /* Adjust dropdown position */
-            position: absolute;
-        }
-        .table {
-            text-align: center;
-            border: 1px solid grey;
-        }
-        .table th {
-            background-color: #12229D; /* Background color for the column headers */
-            color: #fff; /* Text color for the column headers */
-        }
-        .back-btn {
-            color: #6e6e6e; /* Set the color of the icon */
-            text-decoration: none;
-            font-weight: 500;
+        .btn-danger, .btn-success {
             font-size: 0.8rem;
-        }
-        .back-btn:hover {
-            color: #929292; /* Hover color */
-        }
-        .back-btn i {
-            margin-right: 5px;
-        }
-        .clickable-row:hover {
-            cursor: pointer; /* Change cursor to pointer on hover */
-        }
-        .status-complete {
-            color: green !important;
-            font-weight: bold;
-        }
-        .status-pending {
-            color: red !important;
-            font-weight: bold;
-        }
-        .status-approval {
-            color: #E89611 !important;
-            font-weight: bold;
-        }
-        .btn-primary {
-            color: #fff;
-            background-color: #12229D;
-            border: 2px solid #12229D;
-            font-size: 16px; /* Custom font size */
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-        .btn-primary:hover {
-            background-color: #12229D;
-            border-color: #12229D;
-        }
-        /* Pagination link color */
-        .pagination a.page-link {
-            color: #12229D;
-            background-color: transparent; /* Set background color for pagination links */
-            border: 1px solid #12229D; /* Add border to pagination links */
-            padding: 6px 12px; /* Adjust padding for better spacing */
-        }
-        .pagination a.page-link:hover {
-            background-color: #90a3b8; /* Light gray background on hover */
-        }
-        /* Current page link */
-        .pagination .page-item.active .page-link {
-            background-color: #12229D; /* Background color for current page link */
-            color: #fff; /* Font color for current page link */
-            border-color: #12229D; /* Border color for current page link */
-        }
-        .label-date, .label-time, .label-type, .label-reason, .label-status {
-            font-weight: bold; /* Optional: Make labels bold */
-            margin-bottom: 5px; /* Optional: Adjust spacing */
-            margin-right: 5px;
-        }
-        .modal-title {
-            font-weight: bold;
-        }
-        @media (max-width: 768px) {
-            .table {
-                font-size: 0.8rem; /* Font size for tablets */
-            }
         }
     </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-            <a class="navbar-brand" href="../Pages/landing_page.php">
+            <a class="navbar-brand" href="../Pages/landingPage.php">
                 <img src="../img/horizontallogo.png" alt="Clinic Logo">
             </a>
 
@@ -186,8 +92,8 @@ mysqli_close($conn); // Close database connection
                         <i class="fas fa-user-circle fa-lg" style="color: #12229D"></i> <!-- Font Awesome profile icon -->
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="edit_profile.php">Edit Profile</a></li>
-                        <li><a class="dropdown-item" href="appointment_history.php">Appointment History</a></li>
+                        <li><a class="dropdown-item" href="editProfile.php">Edit Profile</a></li>
+                        <li><a class="dropdown-item" href="appointmentHistory.php">Appointment History</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="../Models/handleLogout.php">Logout</a></li>
                     </ul>
@@ -201,7 +107,7 @@ mysqli_close($conn); // Close database connection
             <div class="col-lg-8">
                 <section class="content-container mb-3">
                     <!-- Back button and title -->
-                    <a href="landing_page.php" class="back-btn">
+                    <a href="landingPage.php" class="back-btn">
                         <i class="fas fa-arrow-left fa-lg"></i>Return to dashboard
                     </a>
                     <h3 class="mt-3">Appointment History</h3>
@@ -245,7 +151,7 @@ mysqli_close($conn); // Close database connection
                                                         <p><span class="label-time">Time:</span> <?php echo htmlspecialchars($appointment['time_preference']); ?></p>
                                                         <p><span class="label-type">Type:</span> <?php echo htmlspecialchars($appointment['appointment_type']); ?></p>
                                                         <p><span class="label-reason">Reason:</span> <?php echo htmlspecialchars($appointment['reason']); ?></p>
-                                                        <p><span class="label-status">Status:</span> <span class="<?php echo $appointment['approved'] ? 'status-complete' : 'status-pending'; ?>">
+                                                        <p><span class="label-status">Status:</span> <span class="<?php echo getStatusClass($appointment); ?>">
                                                             <?php echo getStatusText($appointment); ?>
                                                         </span></p>
                                                     </div>
@@ -262,8 +168,12 @@ mysqli_close($conn); // Close database connection
                                                                 <input type="time" class="form-control" id="editTime_<?php echo $appointment['appointmentID']; ?>" name="time_preference" value="<?php echo htmlspecialchars($appointment['time_preference']); ?>" required>
                                                             </div>
                                                             <div class="mb-3">
-                                                                <label for="editAppointmentType_<?php echo $appointment['appointmentID']; ?>" class="form-label">Appointment Type</label>
-                                                                <input type="text" class="form-control" id="editAppointmentType_<?php echo $appointment['appointmentID']; ?>" name="appointment_type" value="<?php echo htmlspecialchars($appointment['appointment_type']); ?>" required>
+                                                                <label for="editAppointmentType_<?php echo $appointment['appointmentID']; ?>" class="form-label">Type</label>
+                                                                <select class="form-select" id="editAppointmentType_<?php echo $appointment['appointmentID']; ?>" name="appointment_type" required>
+                                                                    <option value="Regular Checkup" <?php echo ($appointment['appointment_type'] == 'Regular Checkup') ? 'selected' : ''; ?>>Regular Checkup</option>
+                                                                    <option value="Specific Treatment" <?php echo ($appointment['appointment_type'] == 'Specific Treatment') ? 'selected' : ''; ?>>Specific Treatment</option>
+                                                                    <option value="Consultation" <?php echo ($appointment['appointment_type'] == 'Consultation') ? 'selected' : ''; ?>>Consultation</option>
+                                                                </select>
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="editReason_<?php echo $appointment['appointmentID']; ?>" class="form-label">Reason</label>
@@ -301,6 +211,8 @@ mysqli_close($conn); // Close database connection
                                             </div>
                                         </div>
                                     </div>
+                                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+                                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
                                     <script>
                                         function toggleEdit(appointmentID) {
                                             // Hide details section
@@ -395,8 +307,6 @@ mysqli_close($conn); // Close database connection
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

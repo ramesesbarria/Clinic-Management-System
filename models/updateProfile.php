@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("ssssssi", $firstName, $lastName, $dob, $address, $phoneNumber, $email, $_SESSION['user_id']);
     if ($stmt->execute()) {
         // Redirect back to edit_profile.php on success
-        header("Location: ../Pages/edit_profile.php");
+        header("Location: ../Pages/editProfile.php");
         exit();
     } else {
         // Handle error (e.g., display an error message)

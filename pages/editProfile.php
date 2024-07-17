@@ -17,14 +17,13 @@ $email = $_SESSION['user_email'] ?? '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Clinic - Edit Profile</title>
+    <link rel="icon" type="image/x-icon" href="../img/logo.png">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/styles.css">
     <style>
-        * {
-            font-family: 'Merriweather', serif;
-        }
-        body {
+       body {
             background-image: url('../img/background.png');
             background-size: cover;
             background-position: center;
@@ -32,48 +31,12 @@ $email = $_SESSION['user_email'] ?? '';
             background-attachment: fixed;
             height: 100%; /* Ensure full height background */
         }
-        .navbar {
-            background-color: #f8f9fa;
-            position: relative;
-            z-index: 1000; /* Ensure navbar is above other content */
-        }
-        .navbar-brand img {
-            height: 100px;
-        }
-        .navbar .dropdown-menu {
-            margin-top: 2px; /* Adjust dropdown position */
-            position: absolute;
-        }
-        /* Adjusted primary button style */
-        .btn-primary {
-            color: #fff;
-            background-color: #12229D;
-            border: 2px solid #12229D;
-            font-size: 0.8rem;
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-        .btn-primary:hover {
-            background-color: #12229D;
-            border-color: #12229D;
-        }
-        .back-btn {
-            color: #6e6e6e; /* Set the color of the icon */
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.8rem;
-        }
-        .back-btn:hover {
-            color: #929292; /* Hover color */
-        }
-        .back-btn i {
-            margin-right: 5px;
-        }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-            <a class="navbar-brand" href="../Pages/landing_page.php">
+            <a class="navbar-brand" href="../Pages/landingPage.php">
                 <img src="../img/horizontallogo.png" alt="Clinic Logo">
             </a>
 
@@ -83,8 +46,8 @@ $email = $_SESSION['user_email'] ?? '';
                         <i class="fas fa-user-circle fa-lg" style="color: #12229D"></i> <!-- Font Awesome profile icon -->
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="edit_profile.php">Edit Profile</a></li>
-                        <li><a class="dropdown-item" href="appointment_history.php">Appointment History</a></li>
+                        <li><a class="dropdown-item" href="editProfile.php">Edit Profile</a></li>
+                        <li><a class="dropdown-item" href="appointmentHistory.php">Appointment History</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="../Models/handleLogout.php">Logout</a></li>
                     </ul>
@@ -97,7 +60,7 @@ $email = $_SESSION['user_email'] ?? '';
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
-                        <a href="landing_page.php" class="back-btn">
+                        <a href="landingPage.php" class="back-btn">
                             <i class="fas fa-arrow-left fa-lg"></i>Return to dashboard
                         </a>
                         <h3 class="card-title text-left mb-4 mt-3">Edit Your Profile</h3>

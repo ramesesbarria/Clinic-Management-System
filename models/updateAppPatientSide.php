@@ -19,10 +19,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($stmt->execute()) {
             // Determine where to redirect based on the current page
-            $redirectPage = '../pages/landing_page.php'; // Default redirect page
+            $redirectPage = '../pages/landingPage.php'; // Default redirect page
 
-            if (strpos($_SERVER['HTTP_REFERER'], 'appointment_history.php') !== false) {
-                $redirectPage = '../pages/appointment_history.php';
+            if (strpos($_SERVER['HTTP_REFERER'], 'appointmentHistory.php') !== false) {
+                $redirectPage = '../pages/appointmentHistory.php';
             }
 
             // Redirect back to appropriate page

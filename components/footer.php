@@ -10,9 +10,9 @@
     </head>
     <body>
         <footer class="footer">
-            <div class="container">
-                <p>Contact Us: (123) 456-7890 | email@clinic.com</p>
-                <p>&copy; <?php echo date('Y'); ?> Our Clinic. All rights reserved.</p>
+            <div class="container mt-3">
+                <p>Contact Us: (032) 254-1333 | mdclinic@gmail.com</p>
+                <p>&copy; <?php echo date('Y'); ?> Care For All. All rights reserved.</p>
             </div>
         </footer>
         
