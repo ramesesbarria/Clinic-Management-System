@@ -185,7 +185,7 @@ mysqli_close($conn); // Close database connection
                                                 <div class="modal-footer">
                                                     <div class="row">
                                                         <div class="col text-end">
-                                                            <?php if ($appointment['approved'] == 1 && $appointment['completed'] == 1 && $appointment['archived'] == 1 && !$editable): ?>
+                                                            <?php if ($appointment['approved'] == 1 && $appointment['completed'] == 1 && !$editable): ?>
                                                                 <a href="view_prescription.php?appointment_id=<?php echo $appointment['appointmentID']; ?>" class="btn btn-primary text-decoration-none">
                                                                     <i class="fas fa-file-prescription fa-lg"></i> Prescription
                                                                 </a>
