@@ -3,18 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clinic Landing Page</title>
+    <title>Medical Clinic - Home</title>
+    <link rel="icon" type="image/x-icon" href="../img/logo.png">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
     <style>
-        * {
-            font-family: 'Merriweather', serif;
-        }
-        /* Custom CSS */
-        .navbar { background-color: #f8f9fa; }
-        .navbar-brand img { height: 100px; }
         .header { 
             text-align: center; 
             padding: 50px 20px; 
@@ -23,27 +18,20 @@
             background-position: center; 
             color: white; /* Ensure text is visible over background */
         }
-        .steps { padding: 20px 0; }
+        .steps { 
+            padding: 20px 0;
+            color: #12229D; 
+        }
         .step { padding: 20px; text-align: center; }
-        .step h5 { margin-top: 10px; } 
-        .footer { 
-            background-color: #12229D; /* Blue background color */
-            padding: 20px; 
-            text-align: center; 
-            color: white; /* White text color */
+        .step h5 { 
+            margin-top: 10px; 
+            font-weight: 700;
         }
-
-        /* Adjusted primary button style */
-        .btn-primary {
-            color: #fff;
-            background-color: #12229D;
-            border: 2px solid #12229D;
-            font-size: 0.8rem;
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-        .btn-primary:hover {
-            background-color: #12229D;
-            border-color: #12229D;
+        .steps i { color: #12229D; } 
+        .faq-link {
+            margin-right: 30px;
+            color: #12229D;
+            font-weight: 700;
         }
     </style>
 </head>
@@ -54,7 +42,13 @@
             <a class="navbar-brand" href="#">
                 <img src="../img/horizontallogo.png" alt="Clinic Logo">
             </a>
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link faq-link" href="faq.php">FAQ</a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="btn btn-primary" href="loginForm.php">Login</a>
                 </li>
@@ -65,7 +59,7 @@
     <header class="header">
         <div class="container">
             <h3>Welcome to Our Clinic</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vehicula ex euismod eros consectetur, non tempor ex euismod.</p>
+            <p>Providing compassionate care and excellence in medical services.</p>
             <a href="loginForm.php" class="btn btn-primary">Book an Appointment</a>
         </div>
     </header>

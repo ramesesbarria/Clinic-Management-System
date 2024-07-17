@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Medical Clinic - Login</title>
-    <link rel="icon" type="image/x-icon" href="img/logo.png">
+    <link rel="icon" type="image/x-icon" href="../img/logo.png">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet" >
+    <link rel="stylesheet" href="../assets/css/styles.css">
     <style>
         body {
             font-family: "Merriweather", serif;
@@ -38,29 +39,9 @@
             font-size: 0.8em;
             margin-bottom: 15px;
         }
-        .btn-primary {
-            color: #fff;
-            background-color: #12229D;
-            border: 2px solid #12229D;
-            font-size: 0.8rem;
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-        .btn-primary:hover {
-            background-color: #12229D;
-            border-color: #12229D;
-        }
         .btn-block {
             width: 100%;
             margin-bottom: 10px;
-        }
-        .text-center {
-            text-align: center;
-        }
-        .back-btn {
-            color: #6e6e6e; /* Set the color of the icon */
-        }
-        .back-btn:hover {
-            color: #929292; /* Hover color */
         }
     </style>
 </head>

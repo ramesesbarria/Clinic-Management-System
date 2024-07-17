@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_phone'] = $user_patient['phone_number'];
             $_SESSION['user_email'] = $user_patient['email'];
             $_SESSION['last_login'] = time();
-            header("Location: ../Pages/landing_page.php");
+            header("Location: ../Pages/landingPage.php");
             exit();
         } else {
             // Incorrect password
@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         exit();
                     default:
                         // Handle other staff types if necessary
-                        header("Location: ../Pages/landing_page.php");
+                        header("Location: ../Pages/ndingPage.php");
                         exit();
                 }
             } else {

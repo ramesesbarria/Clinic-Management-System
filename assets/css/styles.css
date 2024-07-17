@@ -1,9 +1,16 @@
-.content-container {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    margin-top: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+* {
+    font-family: 'Merriweather', serif;
+}
+.btn-primary {
+    color: #fff;
+    background-color: #12229D;
+    border: 2px solid #12229D;
+    font-size: 0.8rem;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+.btn-primary:hover {
+    background-color: #12229D;
+    border-color: #12229D;
 }
 .btn-scroll-top {
     position: fixed;
@@ -35,4 +42,83 @@
 }
 .footer p {
     margin-bottom: 5px;
+    font-size: 0.8rem;
+}
+.footer h6 {
+    margin-top: 5px;
+}
+.table {
+    text-align: center;
+    border: 1px solid grey;
+}
+.table th {
+    background-color: #12229D; /* Background color for the column headers */
+    color: #fff; /* Text color for the column headers */
+}
+.clickable-row:hover {
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+.status-complete {
+    color: green !important;
+    font-weight: bold;
+}
+.status-pending {
+    color: red !important;
+    font-weight: bold;
+}
+.status-approval {
+    color: #E89611 !important;
+    font-weight: bold;
+}
+.label-date, .label-time, .label-type, .label-reason, .label-status {
+    font-weight: bold; /* Optional: Make labels bold */
+    margin-bottom: 5px; /* Optional: Adjust spacing */
+    margin-right: 5px;
+}
+.modal-title {
+    font-weight: bold;
+}
+.pagination a.page-link {
+    color: #12229D;
+    background-color: transparent; /* Set background color for pagination links */
+    border: 1px solid #12229D; /* Add border to pagination links */
+    padding: 6px 12px; /* Adjust padding for better spacing */
+}
+.pagination a.page-link:hover {
+    background-color: #90a3b8; /* Light gray background on hover */
+}
+/* Current page link */
+.pagination .page-item.active .page-link {
+    background-color: #12229D; /* Background color for current page link */
+    color: #fff; /* Font color for current page link */
+    border-color: #12229D; /* Border color for current page link */
+}
+.navbar {
+    background-color: #f8f9fa;
+    position: relative;
+    z-index: 1000; /* Ensure navbar is above other content */
+}
+.navbar-brand img {
+    height: 100px;
+}
+.navbar .dropdown-menu {
+    margin-top: 2px; /* Adjust dropdown position */
+    position: absolute;
+}
+.back-btn {
+    color: #6e6e6e; /* Set the color of the icon */
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+.back-btn:hover {
+    color: #929292; /* Hover color */
+}
+.back-btn i {
+    margin-right: 5px;
+}
+@media (max-width: 768px) {
+    .table {
+        font-size: 0.8rem; /* Font size for tablets */
+    }
 }
