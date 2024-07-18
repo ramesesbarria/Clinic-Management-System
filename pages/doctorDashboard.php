@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$queryAppointments .= " ORDER BY appointments.date_preference AND appointments.date_preference ASC";
+$queryAppointments .= " ORDER BY appointments.date_preference ASC, appointments.time_preference ASC";
 
 $resultAppointments = mysqli_query($conn, $queryAppointments);
 
