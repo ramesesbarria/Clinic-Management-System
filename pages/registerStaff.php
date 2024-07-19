@@ -93,6 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <a href="#">staff</a>
   </div> -->
         <a href="registerStaff.php">Register Staff</a>
+        <a href="staffTable.php">Staff Table</a>
         <a href="../models/handleLogout.php">Log Out</a>
     </div>
     <div class="container mt-5 shadow p-3 mb-5 bg-white rounded content">
