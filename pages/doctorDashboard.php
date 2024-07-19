@@ -115,6 +115,13 @@ if (isset($_POST['logout'])) {
             background-color: #12229D;
             border-color: #12229D;
         }
+        .table-responsive {
+            max-height:450px;
+        }
+        thead th {
+        position: sticky;
+        top: 0;
+        }
     </style>
 </head>
 <body>
@@ -130,7 +137,6 @@ if (isset($_POST['logout'])) {
                     <i class="fas fa-user-circle fa-lg" style="color: #12229D"></i> <!-- Font Awesome profile icon -->
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="appointment_history.php">Appointment History</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="../Models/handleLogout.php">Logout</a></li>
                 </ul>
@@ -153,7 +159,7 @@ if (isset($_POST['logout'])) {
                     </div>
                     <button type="submit" class="btn btn-primary">Apply Filters</button>
                 </form>
-
+            <div class="table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
@@ -184,6 +190,7 @@ if (isset($_POST['logout'])) {
                         ?>
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
     </div>

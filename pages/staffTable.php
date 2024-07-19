@@ -7,6 +7,8 @@ if (!isset($_SESSION['userID']) || $_SESSION['userType'] !== 'admin') {
     exit();
 }
 
+$sql = "SELECT * FROM staff";
+$result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -55,6 +57,9 @@ if (!isset($_SESSION['userID']) || $_SESSION['userType'] !== 'admin') {
   background-color: #1a202c;
   padding-left: 8px;
 }
+.table-responsive {
+            max-height: 500px;
+        }
 </style>
 </head>
 
@@ -77,8 +82,50 @@ if (!isset($_SESSION['userID']) || $_SESSION['userType'] !== 'admin') {
         <a href="staffTable.php">Staff Table</a>
         <a href="../models/handleLogout.php">Log Out</a>
     </div>
+    <div class="content">
+    <div class="container mt-5 table-responsive" >
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Staff Type</th>
+                <th>Created At</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+                    echo "<tr>
+                            <td>{$row['staffID']}</td>
+                            <td>{$row['fname']}</td>
+                            <td>{$row['lname']}</td>
+                            <td>{$row['email']}</td>
+                            <td>{$row['staffType']}</td>
+                            <td>{$row['created_at']}</td>
+                            <td>
+                                <a href='editStaff.php?id={$row['staffID']}' class='btn btn-warning btn-sm'>Edit</a>
+                                <a href='../models/deleteStaff.php?id={$row['staffID']}' class='btn btn-danger btn-sm' onclick='return confirmDelete()'>Delete</a>
+                            </td>
+                          </tr>";
+                }
+            } else {
+                echo "<tr><td colspan='7'>No records found</td></tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
+    </div>
 </body>
 <script>
+function confirmDelete() {
+    return confirm("Are you sure you want to delete this record?");
+}
 /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
 var dropdown = document.getElementsByClassName("dropdown-btn");
 var i;

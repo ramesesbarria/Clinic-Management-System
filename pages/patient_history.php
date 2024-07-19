@@ -41,14 +41,18 @@ $resultPatientRecords = mysqli_query($conn, $queryPatientRecords);
 if (!empty($dateFrom) && !empty($dateTo)) {
     // Construct conditions for date filters
     $dateFilterConditions = " AND date_preference BETWEEN '$dateFrom' AND '$dateTo'";
+    $dateFilterConditions2 = " AND updated_at BETWEEN '$dateFrom' AND '$dateTo'";
+    $dateFilterConditions3 = " AND created_at BETWEEN '$dateFrom' AND '$dateTo'";
     
     // Update queries with date filters
     $queryArchivedAppointments .= $dateFilterConditions;
-    $queryPatientRecords .= $dateFilterConditions;
+    $queryPatientRecords .= $dateFilterConditions2;
+    $queryPrescriptions .= $dateFilterConditions3;
     
     // Re-query with date filters
     $resultArchivedAppointments = mysqli_query($conn, $queryArchivedAppointments);
     $resultPatientRecords = mysqli_query($conn, $queryPatientRecords);
+    $resultPrescriptions = mysqli_query($conn, $queryPrescriptions);
 }
 
 // Fetch doctor's first name
@@ -165,6 +169,13 @@ body {
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
+        .table-responsive {
+            max-height:300px;
+        }
+        thead th {
+        position: sticky;
+        top: 0;
+        }
     </style>
 </head>
 <body>
@@ -180,7 +191,6 @@ body {
                     <i class="fas fa-user-circle fa-lg" style="color: #12229D"></i> <!-- Font Awesome profile icon -->
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="appointment_history.php">Appointment History</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="../Models/handleLogout.php">Logout</a></li>
                 </ul>
@@ -213,7 +223,7 @@ body {
         <div class="row">
             <!-- Patient Records Table -->
             <div class="col-md-4">
-                <div class="table-container">
+                <div class="table-container table-responsive">
                     <h3>Patient Records</h3>
                     <table class="table table-striped">
                         <thead>
@@ -245,8 +255,8 @@ body {
             
             <!-- Archived Appointments Table -->
             <div class="col-md-4">
-                <div class="table-container">
-                    <h3>Archived Appointments</h3>
+                <div class="table-container table-responsive">
+                    <h3>Appointments</h3>
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -301,9 +311,9 @@ body {
                     </table>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="table-container">
-                    <h3>Prescriptions</h3>
+            <div class="col-md-4"><h3>Prescriptions</h3>
+                <div class="table-container table-responsive">
+                    
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -368,7 +378,7 @@ body {
                         <h5 class="modal-title" id="recordModalLabel<?php echo $patientRecord['patientRecordID']; ?>">Patient Record Details</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
-                        </button>
+                        </button>   
                     </div>
                     <div class="modal-body">
                         <p><strong>Medical History:</strong> <?php echo $patientRecord['medical_history']; ?></p>
